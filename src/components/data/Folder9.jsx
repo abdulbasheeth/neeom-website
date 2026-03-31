@@ -1,0 +1,102 @@
+import React from "react";
+import image091 from "../../assets/9.Nonwovenbags&covers/09image1.jpg";
+import image092 from "../../assets/9.Nonwovenbags&covers/09image2.jpg";
+import image093 from "../../assets/9.Nonwovenbags&covers/09image3.jpg";
+import image094 from "../../assets/9.Nonwovenbags&covers/09image4.jpg";
+import image095 from "../../assets/9.Nonwovenbags&covers/09image5.jpg";
+import image096 from "../../assets/9.Nonwovenbags&covers/09image6.jpg";
+import image097 from "../../assets/9.Nonwovenbags&covers/09image7.jpg";
+import image098 from "../../assets/9.Nonwovenbags&covers/09image8.jpg";
+import image099 from "../../assets/9.Nonwovenbags&covers/09image9.jpg";
+import image0910 from "../../assets/9.Nonwovenbags&covers/09image10.jpg";
+import image0911 from "../../assets/9.Nonwovenbags&covers/09image11.jpg";
+import image0912 from "../../assets/9.Nonwovenbags&covers/09image12.jpg";
+import image0913 from "../../assets/9.Nonwovenbags&covers/09image13.jpg";
+import image0914 from "../../assets/9.Nonwovenbags&covers/09image14.jpg";
+import image0915 from "../../assets/9.Nonwovenbags&covers/09image15.jpg";
+import image0916 from "../../assets/9.Nonwovenbags&covers/09image16.jpg";
+import image0917 from "../../assets/9.Nonwovenbags&covers/09image17.jpg";
+import image0918 from "../../assets/9.Nonwovenbags&covers/09image18.jpg";
+import image0919 from "../../assets/9.Nonwovenbags&covers/09image19.jpg";
+import image0920 from "../../assets/9.Nonwovenbags&covers/09image20.jpg";
+import image0921 from "../../assets/9.Nonwovenbags&covers/09image21.jpg";
+import image0922 from "../../assets/9.Nonwovenbags&covers/09image22.jpg";
+import image0923 from "../../assets/9.Nonwovenbags&covers/09image23.jpg";
+import image0924 from "../../assets/9.Nonwovenbags&covers/09image24.jpg";
+import image0925 from "../../assets/9.Nonwovenbags&covers/09image25.jpg";
+import image0926 from "../../assets/9.Nonwovenbags&covers/09image26.jpg";
+import image0927 from "../../assets/9.Nonwovenbags&covers/09image27.jpg";
+import image0928 from "../../assets/9.Nonwovenbags&covers/09image28.jpg";
+import image0929 from "../../assets/9.Nonwovenbags&covers/09image29.jpg";
+import image0930 from "../../assets/9.Nonwovenbags&covers/09image30.jpg";
+import image0931 from "../../assets/9.Nonwovenbags&covers/09image31.jpg";
+import image0932 from "../../assets/9.Nonwovenbags&covers/09image32.jpg";
+import image0933 from "../../assets/9.Nonwovenbags&covers/09image33.jpg";
+import image0934 from "../../assets/9.Nonwovenbags&covers/09image34.jpg";
+import image0935 from "../../assets/9.Nonwovenbags&covers/09image35.jpg";
+import image0936 from "../../assets/9.Nonwovenbags&covers/09image36.jpg";
+import image0937 from "../../assets/9.Nonwovenbags&covers/09image37.jpg";
+import image0938 from "../../assets/9.Nonwovenbags&covers/09image38.jpg";
+import image0939 from "../../assets/9.Nonwovenbags&covers/09image39.jpg";
+import image0940 from "../../assets/9.Nonwovenbags&covers/09image40.jpg";
+import image0941 from "../../assets/9.Nonwovenbags&covers/09image41.jpg";
+import image0942 from "../../assets/9.Nonwovenbags&covers/09image42.jpg";
+import image0943 from "../../assets/9.Nonwovenbags&covers/09image43.jpg";
+import image0944 from "../../assets/9.Nonwovenbags&covers/09image44.jpg";
+import image0945 from "../../assets/9.Nonwovenbags&covers/09image45.jpg";
+import image0946 from "../../assets/9.Nonwovenbags&covers/09image46.jpg";
+import image0947 from "../../assets/9.Nonwovenbags&covers/09image47.jpg";
+import image0948 from "../../assets/9.Nonwovenbags&covers/09image48.jpg";
+
+
+
+export const folder9Images = [
+{ id: "f9-1", name: "", category: "non-woven", ecoFriendly: false, image: image091 },
+{ id: "f9-2", name: "", category: "non-woven", ecoFriendly: false, image: image092 },
+{ id: "f9-3", name: "", category: "non-woven", ecoFriendly: false, image: image093 },
+{ id: "f9-4", name: "", category: "non-woven", ecoFriendly: false, image: image094 },
+{ id: "f9-5", name: "", category: "non-woven", ecoFriendly: false, image: image095 },
+{ id: "f9-6", name: "", category: "non-woven", ecoFriendly: false, image: image096 },
+{ id: "f9-7", name: "", category: "non-woven", ecoFriendly: false, image: image097 },
+{ id: "f9-8", name: "", category: "non-woven", ecoFriendly: false, image: image098 },
+{ id: "f9-9", name: "", category: "non-woven", ecoFriendly: false, image: image099 },
+{ id: "f9-10", name: "", category: "non-woven", ecoFriendly: false, image: image0910 },
+{ id: "f9-11", name: "", category: "non-woven", ecoFriendly: false, image: image0911 },
+{ id: "f9-12", name: "", category: "non-woven", ecoFriendly: false, image: image0912 },
+{ id: "f9-13", name: "", category: "non-woven", ecoFriendly: false, image: image0913 },
+{ id: "f9-14", name: "", category: "non-woven", ecoFriendly: false, image: image0914 },
+{ id: "f9-15", name: "", category: "non-woven", ecoFriendly: false, image: image0915 },
+{ id: "f9-16", name: "", category: "non-woven", ecoFriendly: false, image: image0916 },
+{ id: "f9-17", name: "", category: "non-woven", ecoFriendly: false, image: image0917 },
+{ id: "f9-18", name: "", category: "non-woven", ecoFriendly: false, image: image0918 },
+{ id: "f9-19", name: "", category: "non-woven", ecoFriendly: false, image: image0919 },
+{ id: "f9-20", name: "", category: "non-woven", ecoFriendly: false, image: image0920 },
+{ id: "f9-21", name: "", category: "non-woven", ecoFriendly: false, image: image0921 },
+{ id: "f9-22", name: "", category: "non-woven", ecoFriendly: false, image: image0922 },
+{ id: "f9-23", name: "", category: "non-woven", ecoFriendly: false, image: image0923 },
+{ id: "f9-24", name: "", category: "non-woven", ecoFriendly: false, image: image0924 },
+{ id: "f9-25", name: "", category: "non-woven", ecoFriendly: false, image: image0925 },
+{ id: "f9-26", name: "", category: "non-woven", ecoFriendly: false, image: image0926 },
+{ id: "f9-27", name: "", category: "non-woven", ecoFriendly: false, image: image0927 },
+{ id: "f9-28", name: "", category: "non-woven", ecoFriendly: false, image: image0928 },
+{ id: "f9-29", name: "", category: "non-woven", ecoFriendly: false, image: image0929 },
+{ id: "f9-30", name: "", category: "non-woven", ecoFriendly: false, image: image0930 },
+{ id: "f9-31", name: "", category: "non-woven", ecoFriendly: false, image: image0931 },
+{ id: "f9-32", name: "", category: "non-woven", ecoFriendly: false, image: image0932 },
+{ id: "f9-33", name: "", category: "non-woven", ecoFriendly: false, image: image0933 },
+{ id: "f9-34", name: "", category: "non-woven", ecoFriendly: false, image: image0934 },
+{ id: "f9-35", name: "", category: "non-woven", ecoFriendly: false, image: image0935 },
+{ id: "f9-36", name: "", category: "non-woven", ecoFriendly: false, image: image0936 },
+{ id: "f9-37", name: "", category: "non-woven", ecoFriendly: false, image: image0937 },
+{ id: "f9-38", name: "", category: "non-woven", ecoFriendly: false, image: image0938 },
+{ id: "f9-39", name: "", category: "non-woven", ecoFriendly: false, image: image0939 },
+{ id: "f9-40", name: "", category: "non-woven", ecoFriendly: false, image: image0940 },
+{ id: "f9-41", name: "", category: "non-woven", ecoFriendly: false, image: image0941 },
+{ id: "f9-42", name: "", category: "non-woven", ecoFriendly: false, image: image0942 },
+{ id: "f9-43", name: "", category: "non-woven", ecoFriendly: false, image: image0943 },
+{ id: "f9-44", name: "", category: "non-woven", ecoFriendly: false, image: image0944 },
+{ id: "f9-45", name: "", category: "non-woven", ecoFriendly: false, image: image0945 },
+{ id: "f9-46", name: "", category: "non-woven", ecoFriendly: false, image: image0946 },
+{ id: "f9-47", name: "", category: "non-woven", ecoFriendly: false, image: image0947 },
+{ id: "f9-48", name: "", category: "non-woven", ecoFriendly: false, image: image0948 },
+]

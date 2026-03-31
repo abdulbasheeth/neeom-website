@@ -1,0 +1,255 @@
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+import { productImages } from "./productImages";
+import { folder2Images } from "./Folder2";
+import { folder3Images } from "./Folder3";
+import { folder4Images } from "./Folder4";
+import { folder5Images } from "./Folder5";
+import { folder6Images } from "./Folder6";
+import { folder7Images } from "./Folder7";
+import { folder8Images } from "./Folder8";
+import { folder9Images } from "./Folder9";
+
+export const categories = [
+  { id: "amenities", label: "Guest Amenities", icon: "🧴" },
+  { id: "linens", label: "Bed & Bath Linens", icon: "🛏️" },
+  { id: "chemicals", label: "Laundry Chemicals", icon: "🧪" },
+  { id: "cleaning", label: "Cleaning Equipment", icon: "🧹" },
+  { id: "bins", label: "Trolleys & Bins", icon: "🗑️" },
+  { id: "fuel", label: "Chafing Fuel & Charcoal", icon: "🔥" },
+  { id: "promotions", label: "Promotional Giveaways", icon: "🎁" },
+  { id: "eco-bags", label: "Eco-Friendly Bags", icon: "♻️" },
+  { id: "non-woven", label: "Non-Woven Bags", icon: "👜" },
+  { id: "ppe", label: "Disposable PPE", icon: "🧤" },
+];
+
+const allProducts = [
+  ...productImages,
+  ...folder2Images,
+  ...folder3Images,
+  ...folder4Images,
+  ...folder5Images,
+  ...folder6Images,
+  ...folder7Images,
+  ...folder8Images,
+  ...folder9Images,
+];
+
+const CategoryButton = ({ category, isSelected, onClick, isMobile = false }) => {
+  const baseClasses = isMobile
+    ? "flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border flex items-center gap-2"
+    : "w-full text-left px-3 py-2.5 rounded-lg transition-all duration-200 flex items-center group";
+
+  const selectedClasses = isMobile
+    ? "bg-indigo-600 text-white border-indigo-600 shadow-md"
+    : "bg-indigo-50 text-indigo-700 font-medium";
+
+  const unselectedClasses = isMobile
+    ? "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900";
+
+  return (
+    <button
+      onClick={onClick}
+      className={`${baseClasses} ${isSelected ? selectedClasses : unselectedClasses}`}
+      aria-current={isSelected ? "page" : undefined}
+    >
+      {category?.icon && <span>{category.icon}</span>}
+      <span>{category?.label || "All Products"}</span>
+      {!isMobile && isSelected && (
+        <span className="ml-auto w-1.5 h-1.5 bg-indigo-600 rounded-full" />
+      )}
+    </button>
+  );
+};
+
+const Product = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get('category');
+
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    setSelectedCategory(categoryFromUrl);
+  }, [categoryFromUrl]);
+
+  const filteredProducts = useMemo(() => {
+    return allProducts.filter((p) => {
+      const matchesCategory = selectedCategory
+        ? p.category?.toLowerCase() === selectedCategory.toLowerCase()
+        : true;
+      const matchesSearch = searchQuery
+        ? p.name?.toLowerCase().includes(searchQuery.toLowerCase())
+        : true;
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
+
+  const handleSearchChange = useCallback((e) => {
+    setSearchQuery(e.target.value);
+  }, []);
+
+  const clearSearch = () => setSearchQuery("");
+
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategory(categoryId);
+    if (categoryId) {
+      setSearchParams({ category: categoryId });
+    } else {
+      searchParams.delete('category');
+      setSearchParams(searchParams);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+
+          {/* Desktop Sidebar */}
+          <aside className="hidden lg:block lg:col-span-3" aria-label="Product categories">
+            <div className="sticky top-24 space-y-2">
+              <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 px-3">
+                Categories
+              </h3>
+              <CategoryButton
+                category={{ icon: "📦", label: "All Products" }}
+                isSelected={!selectedCategory}
+                onClick={() => handleCategorySelect(null)}
+              />
+              {categories.map((category) => (
+                <CategoryButton
+                  key={category.id}
+                  category={category}
+                  isSelected={selectedCategory === category.id}
+                  onClick={() => handleCategorySelect(category.id)}
+                />
+              ))}
+            </div>
+          </aside>
+
+          {/* Main Content */}
+          <main className="lg:col-span-9">
+
+            {/* Search Section */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-slate-900 mb-2">Product Search</h1>
+              <p className="text-slate-500 mb-4">Find the perfect items for your business needs.</p>
+
+              <div className="relative">
+                <label htmlFor="search" className="sr-only">Search by product name</label>
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <input
+                  id="search"
+                  type="text"
+                  placeholder="Search by product name..."
+                  className="w-full pl-11 pr-12 py-3.5 bg-white border border-slate-200 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-slate-700 placeholder-slate-400"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
+                {searchQuery && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600"
+                    aria-label="Clear search"
+                  >
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile Filter Bar */}
+            <div className="lg:hidden mb-6 overflow-x-auto pb-2 -mx-4 px-4 flex gap-2 scrollbar-hide">
+              <CategoryButton
+                category={{ icon: "📦", label: "All" }}
+                isSelected={!selectedCategory}
+                onClick={() => handleCategorySelect(null)}
+                isMobile
+              />
+              {categories.map((category) => (
+                <CategoryButton
+                  key={category.id}
+                  category={category}
+                  isSelected={selectedCategory === category.id}
+                  onClick={() => handleCategorySelect(category.id)}
+                  isMobile
+                />
+              ))}
+            </div>
+
+            {/* Results Header */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-slate-900">
+                {selectedCategory
+                  ? categories.find(c => c.id === selectedCategory)?.label
+                  : "All Products"}
+              </h2>
+              <span className="text-sm text-slate-500">{filteredProducts.length} items</span>
+            </div>
+
+            {/* Product Grid */}
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col relative"
+                  >
+                    <div className="relative w-full aspect-square bg-slate-100 overflow-hidden">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/400?text=Image+not+found';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90"></div>
+                      <div className="absolute bottom-0 left-0 right-0 p-5">
+                        <h3 className="text-white text-xl font-bold tracking-tight leading-tight drop-shadow-lg">
+                          {product.name}
+                        </h3>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-slate-50 border-t border-slate-100">
+                      <button className="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold text-sm hover:bg-indigo-600 active:scale-[0.98] transition-all duration-200 shadow-sm group-hover:shadow-md flex items-center justify-center gap-2">
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Get a Quote
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-200">
+                <div className="text-5xl mb-4">📦</div>
+                <h3 className="text-lg font-semibold text-slate-800">No products found</h3>
+                <p className="text-slate-500 mt-1">Try adjusting your search or filter.</p>
+                <button
+                  onClick={() => handleCategorySelect(null)}
+                  className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                >
+                  View All Products
+                </button>
+              </div>
+            )}
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Product;
