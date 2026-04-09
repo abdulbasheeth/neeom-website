@@ -58,7 +58,7 @@ const About = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight mb-6"
+          className="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-gradient-to-r from-indigo-700 via-slate-800 to-indigo-600 bg-clip-text text-transparent"
         >
           Redefining Hospitality <br className="hidden md:block"/>Standards
         </motion.h1>

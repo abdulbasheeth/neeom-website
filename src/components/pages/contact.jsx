@@ -12,9 +12,9 @@ import {
 } from 'lucide-react';
 
 /* WhatsApp API needs digits only — no "+" or spaces */
-const WHATSAPP_NUMBER = '971568249900';
+const WHATSAPP_NUMBER = '971527087748';
 /* Formatted version for display purposes */
-const WHATSAPP_DISPLAY = '+971 56 824 9900';
+const WHATSAPP_DISPLAY = '+971 52 708 7748';
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -85,7 +85,7 @@ const ContactSection = () => {
     }
 
     parts.push(`Subject: ${subjectLabels[formData.subject] || formData.subject}`);
-    parts.push(`Message : ${formData.message.trim()}`);
+    parts.push(`Message: ${formData.message.trim()}`);
 
     const text = parts.join('\n');
     const encodedText = encodeURIComponent(text);
@@ -170,7 +170,7 @@ const ContactSection = () => {
                 icon={<Phone size={20} />}
                 title="Call / WhatsApp"
                 body={
-                  <a href={`tel:+${WHATSAPP_NUMBER}`} style={styles.link}>
+                  <a href={`tel:${WHATSAPP_DISPLAY}`} style={styles.link}>
                     {WHATSAPP_DISPLAY}
                   </a>
                 }
@@ -180,16 +180,16 @@ const ContactSection = () => {
                 title="Working Hours"
                 body={
                   <>
-                    Sun – Thu: 9:00 AM – 6:00 PM
+                    Mon – Sat: 9:00 AM – 6:00 PM
                     <br />
-                    Fri – Sat: Closed
+                    Sun: Closed
                   </>
                 }
               />
 
               {/* ── Clickable Google Maps ── */}
               <a
-                href="https://www.google.com/maps/search/Mashreq+Building+Al+Suq+Al+Kabeer+Dubai+UAE"
+                href="https://www.google.com/maps/dir//Mashreq+Bank+Global+HQ+-+Umniyati+Street+-+off+Al+Asayel+St+-+Burj+Khalifa+-+Downtown+Dubai+-+Dubai/@25.1960343,55.2122624,13z/data=!4m18!1m8!3m7!1s0x3e5f696527561b31:0x9dddcda468434fe!2sMashreq+Bank+Global+HQ!8m2!3d25.1960343!4d55.2843602!15sCitNYXNocmVxIEJ1aWxkaW5nIEFsIFN1cSBBbCBLYWJlZXIgRHViYWkgVUFFIgOIAQFaLSIrbWFzaHJlcSBidWlsZGluZyBhbCBzdXEgYWwga2FiZWVyIGR1YmFpIHVhZZIBEGNvcnBvcmF0ZV9vZmZpY2WaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVUmtPSEZQUjBKM0VBReABAPoBBAgAEDg!16s%2Fg%2F11fp3xxcnd!4m8!1m0!1m5!1m1!1s0x3e5f696527561b31:0x9dddcda468434fe!2m2!1d55.2843602!2d25.1960343!3e0?entry=ttu&g_ep=EgoyMDI2MDQwNi4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={styles.mapLink}
@@ -486,7 +486,6 @@ const styles = {
   },
   infoCard: {
     background: blue.white,
-    border: '1px solid #e4edf7',
     borderRadius: 16,
     padding: 28,
     display: 'flex',
@@ -496,7 +495,7 @@ const styles = {
     cursor: 'default',
   },
   infoCardHover: {
-    borderColor: blue.lighter,
+    border: `1px solid ${blue.lighter}`,
     boxShadow: '0 12px 40px -12px rgba(21,88,168,0.15)',
     transform: 'translateY(-2px)',
   },
@@ -542,7 +541,6 @@ const styles = {
   },
   mapCard: {
     background: blue.white,
-    border: '1px solid #e4edf7',
     borderRadius: 16,
     overflow: 'hidden',
     height: 200,
@@ -562,7 +560,7 @@ const styles = {
     left: 0,
     right: 0,
     padding: '14px 18px',
-    background: 'linear-gradient(to top, rgba(10,22,40,0.88) 0%, rgba(10,22,40,0.4) 60%, transparent 100%)',
+    background: 'linear-gradient(to top, rgba(21,88,168,0.75) 0%, rgba(21,88,168,0.3) 70%, transparent 100%)',
     display: 'flex',
     alignItems: 'center',
     gap: 12,
@@ -575,12 +573,12 @@ const styles = {
     width: 34,
     height: 34,
     borderRadius: 10,
-    background: 'rgba(21,88,168,0.7)',
+    background: 'rgba(255,255,255,0.2)',
     backdropFilter: 'blur(8px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: '1px solid rgba(255,255,255,0.15)',
+    border: '1px solid rgba(255,255,255,0.3)',
   },
   mapOverlayText: {
     display: 'flex',
@@ -596,7 +594,7 @@ const styles = {
   mapOverlaySub: {
     fontSize: 11,
     fontWeight: 400,
-    color: 'rgba(255,255,255,0.65)',
+    color: 'rgba(255,255,255,0.85)',
     display: 'flex',
     alignItems: 'center',
   },

@@ -54,7 +54,6 @@ const OptimizedImage = ({ src, alt }) => {
         src={src}
         alt={alt}
         onLoad={() => setLoaded(true)}
-        // Removed max-h-24, added w-full h-full for full view
         className={`w-full h-full object-contain transition-all duration-700 ease-out ${
           loaded ? "opacity-100 scale-100" : "opacity-0 scale-90"
         }`}
@@ -98,7 +97,6 @@ const ClientCard = ({ src, index }) => {
       className="group"
     >
       <div
-        // Changed h-24 to h-32, p-4 to p-2 for fuller image view
         className="h-32 w-full flex items-center justify-center p-2 rounded-xl
                    bg-white/80 backdrop-blur-sm border border-slate-100 
                    shadow-sm transition-all duration-400
@@ -148,9 +146,9 @@ const ClientsSection = () => {
           transition={{ duration: 0.7, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 tracking-tight">
-            <span className="block text-slate-800">Powerful Partnerships</span>
-            <span className="block bg-gradient-to-r from-violet-600 via-violet-500 to-cyan-500 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+            <span className="block text-slate-500">Powerful Partnerships</span>
+            <span className="block bg-gradient-to-r from-slate-500 via-blue-600 to-amber-500 bg-clip-text text-transparent pb-5">
               Driving Innovation Forward
             </span>
           </h2>
@@ -187,11 +185,9 @@ const ClientsSection = () => {
             { number: "24/7", label: "Expert Support", icon: "💬" },
           ].map((item, i) => (
             <div key={i} className="text-center group relative">
-              {/* Reduced icon size */}
               <div className="text-xl mb-1 opacity-70 group-hover:opacity-100 transition-opacity">
                 {item.icon}
               </div>
-              {/* Reduced text size (text-2xl instead of text-4xl) */}
               <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent">
                 {item.number}
               </h3>

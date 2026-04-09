@@ -1,4 +1,3 @@
-// Header.js - Updated version
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../Ui/button";
@@ -6,7 +5,7 @@ import { Menu, X } from "lucide-react";
 import neomLogo from "../../assets/arabic&englishlogo.jpg";
 
 const navLinks = [
-  { label: "Home", path: "/", isHash: false }, // Changed: Home now goes directly to /
+  { label: "Home", path: "/", isHash: false },
   { label: "About", path: "/about", isHash: true, elementId: "about" },
   { label: "Products", path: "/products", isHash: false },
   { label: "Contact", path: "/contact", isHash: true, elementId: "contact" },
@@ -29,28 +28,20 @@ const Header = () => {
     setMobileOpen(false);
 
     if (link.isHash) {
-      // For hash links (About, Contact)
       if (location.pathname !== '/') {
-        // If not on home page, navigate to home with hash
         navigate(`/#${link.elementId}`);
-        // The scroll will be handled by App.js useEffect
       } else {
-        // If already on home page, scroll to element
         const element = document.getElementById(link.elementId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
-          // Update URL without triggering scroll again
           navigate(`/#${link.elementId}`, { replace: true });
         }
       }
     } else {
-      // For non-hash links (Home, Products)
       if (link.path === '/') {
-        // Navigate to home and scroll to top
         navigate('/');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
-        // Navigate to products page
         navigate(link.path);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -59,13 +50,11 @@ const Header = () => {
 
   const isActive = (link) => {
     if (link.isHash) {
-      // For About and Contact links
       if (location.pathname === '/') {
         return location.hash === `#${link.elementId}`;
       }
       return false;
     } else {
-      // For Home and Products links
       if (link.path === '/') {
         return location.pathname === '/' && (!location.hash || location.hash === '#home');
       }
@@ -88,13 +77,13 @@ const Header = () => {
       >
         <div className="container mx-auto flex items-center justify-between py-1 px-4">
           
-          {/* Logo Section */}
-          <Link to="/" className="flex items-center gap-3 group relative z-10 flex-shrink-0">
-            <div className="p-1 transition-all duration-300 group-hover:ring-2 group-hover:ring-sky-600 group-hover:ring-offset-2 group-hover:rounded-lg">
+          {/* Logo Section - Hover effects removed */}
+          <Link to="/" className="flex items-center gap-3 relative z-10 flex-shrink-0">
+            <div className="p-1">
               <img
                 src={neomLogo}
                 alt="NEOM Hospitality Supplies"
-                className="h-12 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                className="h-12 md:h-16 w-auto object-contain"
               />
             </div>
           </Link>

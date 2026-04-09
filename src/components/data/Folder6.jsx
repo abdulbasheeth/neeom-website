@@ -14,12 +14,12 @@ import image068 from "../../assets/6.chafingFuel&Charcoals/06image8.jpg";
 
 
 export const folder6Images = [
-     { id: "f6-1", name: "", category: "fuel", ecoFriendly: false, image: image061 },
-     { id: "f6-2", name: "", category: "fuel", ecoFriendly: false, image: image062 },
-     { id: "f6-3", name: "", category: "fuel", ecoFriendly: false, image: image063 },
-     { id: "f6-4", name: "", category: "fuel", ecoFriendly: false, image: image064 },        
-     { id: "f6-5", name: "", category: "fuel", ecoFriendly: false, image: image065 },
-     { id: "f6-6", name: "", category: "fuel", ecoFriendly: false, image: image066 },
-     { id: "f6-7", name: "", category: "fuel", ecoFriendly: false, image: image067 },
-     { id: "f6-8", name: "", category: "fuel", ecoFriendly: false, image: image068 },
+     { id: "f6-1", name: "BBQ Charcoal 1", category: "fuel", ecoFriendly: false, image: image061 },
+     { id: "f6-2", name: "BBQ Charcoal 2", category: "fuel", ecoFriendly: false, image: image062 },
+     { id: "f6-3", name: "BBQ Charcoal 3", category: "fuel", ecoFriendly: false, image: image063 },
+     { id: "f6-4", name: "BBQ Firewood", category: "fuel", ecoFriendly: false, image: image064 },        
+     { id: "f6-5", name: "Chafing Fuel 1", category: "fuel", ecoFriendly: false, image: image065 },
+     { id: "f6-6", name: "Chafing Fuel 2", category: "fuel", ecoFriendly: false, image: image066 },
+     { id: "f6-7", name: "Tea Light Candles 1", category: "fuel", ecoFriendly: false, image: image067 },
+     { id: "f6-8", name: "Tea Light Candles 2", category: "fuel", ecoFriendly: false, image: image068 },
 ]

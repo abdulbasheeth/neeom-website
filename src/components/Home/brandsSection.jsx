@@ -1,11 +1,8 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "../Ui/scroll-reveal";
 
 // Import Assets
-import brand1 from "../../assets/brands/brands1.jpg";
-import brand2 from "../../assets/brands/brands2.jpg";
-import brand3 from "../../assets/brands/brands3.jpg";
 import brand4 from "../../assets/brands/brands4.jpg";
 import brand5 from "../../assets/brands/brands5.jpg";
 import brand6 from "../../assets/brands/brands6.jpg";
@@ -16,52 +13,67 @@ import brand10 from "../../assets/brands/brands10.jpg";
 import brand11 from "../../assets/brands/brands11.jpg";
 import brand12 from "../../assets/brands/brands12.jpg";
 import brand13 from "../../assets/brands/brands13.jpg";
-import brand14 from "../../assets/brands/brands14.jpg";
-import brand15 from "../../assets/brands/brands15.jpg";
 import brand16 from "../../assets/brands/brands16.jpg";
 
 const brandImages = [
-  brand1, brand2, brand3, brand4, brand5, brand6, brand7, brand8, brand9,
-  brand10, brand11, brand12, brand13, brand14, brand15,
+  { src: brand4, name: "Brand 4", category: "Tech" },
+  { src: brand5, name: "Brand 5", category: "Finance" },
+  { src: brand6, name: "Brand 6", category: "Retail" },
+  { src: brand7, name: "Brand 7", category: "Healthcare" },
+  { src: brand8, name: "Brand 8", category: "Education" },
+  { src: brand9, name: "Brand 9", category: "Tech" },
+  { src: brand10, name: "Brand 10", category: "Finance" },
+  { src: brand11, name: "Brand 11", category: "Retail" },
+  { src: brand12, name: "Brand 12", category: "Manufacturing" },
+  { src: brand13, name: "Brand 13", category: "Services" },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.03,
-      delayChildren: 0.2,
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { 
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1]
-    }
-  }
-};
-
 const BrandsSection = () => {
-  const [hoveredIndex, setHoveredIndex] = React.useState(null);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
+
+  // Auto-scroll animation for the brand strip
+  useEffect(() => {
+    const strip = document.querySelector('.brand-strip');
+    if (!strip) return;
+
+    let animationId;
+    let position = 0;
+
+    const animate = () => {
+      position -= 0.5;
+      if (Math.abs(position) >= strip.scrollWidth / 2) {
+        position = 0;
+      }
+      strip.style.transform = `translateX(${position}px)`;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    if (hoveredIndex === null) {
+      animationId = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      if (animationId) cancelAnimationFrame(animationId);
+    };
+  }, [hoveredIndex]);
 
   return (
     <>
-      {/* Outfit — uniform stroke weight, perfect for gradient text clipping */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Poppins:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet"
       />
 
-      {/* Styles */}
       <style>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
@@ -70,162 +82,155 @@ const BrandsSection = () => {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
-        .font-outfit {
-          font-family: 'Outfit', sans-serif;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        @keyframes pulse-ring {
+          0% { transform: scale(0.8); opacity: 0.5; }
+          100% { transform: scale(1.5); opacity: 0; }
+        }
+        .brand-strip {
+          display: flex;
+          gap: 2rem;
+          animation: scroll 30s linear infinite;
+        }
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
       `}</style>
 
-      <section className="py-18 md:py-20 relative overflow-hidden bg-white dark:bg-[#0a0a0a]">
-        
-        {/* Background */}
+      <section
+        ref={sectionRef}
+        className="relative py-24 md:py-15 overflow-hidden bg-gradient-to-b from-white via-gray-50/30 to-white dark:from-[#0a0a0a] dark:via-gray-900/50 dark:to-[#0a0a0a]"
+      >
+        {/* Animated Background Elements */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900" />
-          
-          <div className="absolute inset-0 opacity-30 dark:opacity-20">
-            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-gradient-to-r from-blue-200/30 to-transparent dark:from-blue-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-l from-gray-200/40 to-transparent dark:from-gray-600/10 rounded-full blur-3xl" />
-          </div>
-          
-          <div 
-            className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px]"
-            style={{ maskImage: "radial-gradient(circle at center, transparent 0%, black 100%)" }}
+          {/* Gradient Orbs */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-l from-cyan-400/20 to-indigo-400/20 rounded-full blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-pink-400/5 via-purple-400/5 to-blue-400/5 rounded-full blur-3xl" />
+
+          {/* Grid Pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+            style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 1px)`,
+              backgroundSize: '40px 40px'
+            }}
           />
+
+          {/* Animated Border Lines */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/20 to-transparent" />
         </div>
 
-        {/* Main Container */}
-        <div className="relative z-10 mx-auto px-6 sm:px-8 lg:px-12 max-w-7xl ma">
-          
-          {/* Header */}
-          <ScrollReveal className="text-center mb-20 md:mb-24">
-            
+        <motion.div
+          style={{ opacity, scale }}
+          className="relative z-10 mx-auto px-6 sm:px-8 lg:px-12 max-w-7xl"
+        >
+          {/* Header Section */}
+          <ScrollReveal className="text-center mb-20 lg:mb-28">
+            {/* Badge - reduced top margin */}
             <motion.div
-              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-              className="inline-flex items-center gap-2.5 mb-7"
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-3 mt-2 mb-6 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50"
             >
-              <span className="block w-8 h-px bg-gray-300 dark:bg-gray-700" />
-              <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 font-outfit">
-                Trusted Partners
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
               </span>
-              <span className="block w-8 h-px bg-gray-300 dark:bg-gray-700" />
+              <span className="text-xs font-semibold uppercase tracking-wider bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Trusted Globally
+              </span>
             </motion.div>
 
-            {/* Main Heading */}
-            <div className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-7xl font-bold tracking-tight leading-[1.1] flex flex-wrap justify-center font-outfit">
-              
-              <motion.span
-                initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            {/* Main Heading - Redesigned with company logo colors */}
+            <div className="space-y-4">
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight"
+                style={{
+                  fontFamily: "'Poppins', 'Inter', system-ui, -apple-system, sans-serif",
+                  fontWeight: "800",
+                  letterSpacing: "-0.02em",
+                  lineHeight: "1.2",
+                  textShadow: "0 2px 4px rgba(0,0,0,0.05)"
+                }}
               >
-                500+
-              </motion.span>
-
-              {" "}
-              
-              <motion.span
-                initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-                className="bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent"
-              >
-                companies
-              </motion.span>
-
-              {" "}
-
-              <motion.span
-                initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                className="bg-gradient-to-r from-gray-500 to-gray-400 dark:from-gray-400 dark:to-gray-500 bg-clip-text text-transparent"
-              >
-                trust us
-              </motion.span>
-              
-            </div>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 15, filter: "blur(6px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-gray-500 dark:text-gray-400 mt-7 max-w-md mx-auto text-base sm:text-lg leading-relaxed font-outfit"
-            >
-              Forward-thinking brands delivering exceptional results through our platform.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="flex items-center justify-center gap-1.5 mt-8"
-            >
-              <span className="w-1 h-1 rounded-full bg-indigo-400" />
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-              <span className="w-1 h-1 rounded-full bg-pink-400" />
-            </motion.div>
-          </ScrollReveal>
-
-          {/* Brand Grid */}
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            className="grid grid-cols-5 gap-5 md:gap-6 lg:gap-8 overflow-x-auto pb-4 hide-scrollbar"
-          >
-            {brandImages.map((src, i) => (
-              <motion.div
-                key={i}
-                variants={itemVariants}
-                onMouseEnter={() => setHoveredIndex(i)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                className="relative group min-w-[120px]"
-              >
-                <div
-                  className="relative flex items-center justify-center w-full aspect-square rounded-2xl transition-all duration-300 ease-out cursor-pointer bg-white dark:bg-gray-900/50 backdrop-blur-sm"
+                <span className="bg-gradient-to-r from-[#0B2B5B] via-[#1A4A7A] to-[#0B2B5B] bg-clip-text text-transparent dark:from-[#1E4D8C] dark:via-[#2E6BA8] dark:to-[#1E4D8C]">
+                  Where Innovation Meets
+                </span>
+                <br />
+                <span 
+                  className="text-[#00A3AD] dark:text-[#00C4D0]"
                   style={{
-                    boxShadow: hoveredIndex === i 
-                      ? "0 20px 35px -12px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05)"
-                      : "0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03)",
-                    transform: hoveredIndex === i ? "translateY(-4px) scale(1.02)" : "translateY(0) scale(1)",
+                    fontFamily: "'Playfair Display', 'Poppins', serif",
+                    fontWeight: "900",
+                    fontStyle: "italic"
                   }}
                 >
-                  <div className={`absolute inset-0 rounded-2xl transition-all duration-300 ${
-                    hoveredIndex === i 
-                      ? "border border-gray-200 dark:border-gray-700 shadow-sm" 
-                      : "border border-gray-100 dark:border-gray-800"
-                  }`} />
-                  
-                  <motion.img
-                    src={src}
-                    alt="Brand logo"
-                    className="w-[65%] h-[65%] object-contain transition-all duration-300"
-                    style={{ 
-                      filter: hoveredIndex === i 
-                        ? "brightness(1) grayscale(0%)" 
-                        : "brightness(0.6) grayscale(100%)",
-                      opacity: hoveredIndex === i ? 1 : 0.5
-                    }}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                  Excellence
+                </span>
+              </motion.h2>
+            </div>
+          </ScrollReveal>
 
-        </div>
+          {/* Infinite Scrolling Brand Strip */}
+          <div className="relative overflow-hidden py-0 pb-15">
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white dark:from-[#0a0a0a] to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white dark:from-[#0a0a0a] to-transparent z-10" />
+
+            <div className="overflow-hidden">
+              <div className="brand-strip">
+                {[...brandImages, ...brandImages].map((brand, idx) => (
+                  <motion.div
+                    key={idx}
+                    onHoverStart={() => setHoveredIndex(idx)}
+                    onHoverEnd={() => setHoveredIndex(null)}
+                    className="group relative flex-shrink-0"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  >
+                    <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-white dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+                      <img
+                        src={brand.src}
+                        alt={brand.name}
+                        className="w-16 h-16 md:w-20 md:h-20 object-contain transition-all duration-300 group-hover:scale-110"
+                        // Original colors always - no filters applied
+                      />
+
+                      {/* Hover Tooltip */}
+                      <AnimatePresence>
+                        {hoveredIndex === idx && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs rounded-lg whitespace-nowrap z-20 shadow-lg"
+                          >
+                            {brand.name}
+                            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 dark:bg-white rotate-45" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Decorative Elements */}
+        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent" />
       </section>
     </>
   );

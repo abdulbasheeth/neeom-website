@@ -3,45 +3,133 @@ import { Link } from "react-router-dom";
 import { categories } from "../data/homecategories";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "../Ui/scroll-reveal";
 
-const CategoriesSection = () => (
-  <section className="relative py-24 md:py-32 bg-[#FAF8F5] overflow-hidden mt-20">
+// --- 1. The Bubble Animation Component ---
+const BubbleBackground = () => {
+  const bubbles = Array.from({ length: 20 }).map((_, i) => {
+    const seed = i * 123 + 456;
+    const random = () => {
+      const x = Math.sin(seed) * 10000;
+      return x - Math.floor(x);
+    };
 
-    <div className="absolute inset-0 pointer-events-none">
+    // Calculate random properties
+    const size = 40 + random() * 80;
+    const duration = 10 + random() * 10;
+    const delay = random() * -15;
+
+    // --- UPDATED: Random Horizontal Direction ---
+    // Determine if bubble starts from left or right
+    const isLeftToRight = Math.random() > 0.5;
+
+    // Set starting position off-screen
+    // Left side: -15% (hidden), Right side: 115% (hidden)
+    const left = isLeftToRight ? -15 : 115;
+
+    // Set drift to cross the screen
+    // Needs to travel start offset + screen width + end buffer (approx 130vw total)
+    const xDrift = isLeftToRight ? "135vw" : "-135vw";
+
+    return (
       <div
-        className="absolute inset-0 opacity-[0.035]"
+        key={i}
+        className="bubble"
+        style={{
+          width: `${size}px`,
+          height: `${size}px`,
+          left: `${left}%`,
+          animationDuration: `${duration}s`,
+          animationDelay: `${delay}s`,
+          // Pass the calculated drift direction (using vw units)
+          "--x-drift": xDrift,
+        }}
+      />
+    );
+  });
+
+  return (
+    <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none">
+      {bubbles}
+    </div>
+  );
+};
+
+// --- 2. The Main Component ---
+const CategoriesSection = () => (
+  <section className="relative py-24 md:py-32 bg-[#F0F4FA] overflow-hidden mt-20">
+
+    {/* CSS Animation Keyframes */}
+    <style>{`
+      .bubble {
+        position: absolute;
+        bottom: -150px;
+        border-radius: 50%;
+        
+        /* Fix: Blue tint to be visible on light background */
+        background: rgba(59, 130, 246, 0.1); 
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        
+        backdrop-filter: blur(2px);
+        animation-name: floatBubble;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes floatBubble {
+        0% {
+          transform: translateY(0) translateX(0) scale(0.5);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          /* Uses the variable defined in the JS style prop (e.g., 135vw or -135vw) */
+          transform: translateY(-110vh) translateX(var(--x-drift)) scale(1);
+          opacity: 0;
+        }
+      }
+    `}</style>
+
+    {/* Background Layers */}
+    <div className="absolute inset-0 pointer-events-none">
+      <BubbleBackground />
+
+      <div
+        className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage:
-            "radial-gradient(circle, #1B4332 1px, transparent 1px)",
+            "radial-gradient(circle, #0F2B46 1px, transparent 1px)",
           backgroundSize: "28px 28px",
         }}
       />
-      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-[#1B4332] rounded-full blur-[160px] opacity-[0.04]" />
-      <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-[#C9A84C] rounded-full blur-[160px] opacity-[0.05]" />
+      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-[#0F2B46] rounded-full blur-[160px] opacity-[0.04]" />
+      <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-[#3B82F6] rounded-full blur-[160px] opacity-[0.05]" />
     </div>
 
+    {/* Content Container */}
     <div className="container relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
 
+      {/* Header Section */}
       <ScrollReveal className="mb-14 md:mb-16">
         <div className="relative rounded-3xl overflow-hidden px-6 py-14 md:px-12 md:py-20 text-center">
-
-          <div className="absolute inset-0 bg-[#1B4332]" />
+          <div className="absolute inset-0 bg-[#0F2B46]" />
           <div
             className="absolute inset-0 opacity-[0.04]"
             style={{
               backgroundImage:
-                "radial-gradient(circle, #C9A84C 1px, transparent 1px)",
+                "radial-gradient(circle, #3B82F6 1px, transparent 1px)",
               backgroundSize: "22px 22px",
             }}
           />
-          <div className="absolute top-0 right-0 w-[340px] h-[340px] bg-[#C9A84C] rounded-full blur-[120px] opacity-[0.12]" />
-          <div className="absolute bottom-0 left-0 w-[260px] h-[260px] bg-[#2D6A4F] rounded-full blur-[100px] opacity-[0.25]" />
-          <div className="absolute inset-0 rounded-3xl border border-[#C9A84C]/20 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[340px] h-[340px] bg-[#3B82F6] rounded-full blur-[120px] opacity-[0.12]" />
+          <div className="absolute bottom-0 left-0 w-[260px] h-[260px] bg-[#1E4D8C] rounded-full blur-[100px] opacity-[0.25]" />
+          <div className="absolute inset-0 rounded-3xl border border-[#3B82F6]/20 pointer-events-none" />
 
           <div className="relative z-10">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[#C9A84C]/25 bg-[#C9A84C]/10 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C9A84C]" />
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-[#3B2F6]/25 bg-[#3B82F6]/10 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
               <span
-                className="text-[#C9A84C] font-semibold text-[11px] uppercase tracking-[0.2em]"
+                className="text-[#60A5FA] font-semibold text-[11px] uppercase tracking-[0.2em]"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 Our Categories
@@ -53,7 +141,7 @@ const CategoriesSection = () => (
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
               Explore by{" "}
-              <span className="relative inline-block text-[#C9A84C]">
+              <span className="relative inline-block text-[#60A5FA]">
                 Category
                 <svg
                   className="absolute -bottom-1.5 left-0 w-full"
@@ -82,115 +170,47 @@ const CategoriesSection = () => (
         </div>
       </ScrollReveal>
 
+      {/* Categories Grid */}
       <StaggerContainer
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-        staggerDelay={0.12}
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5"
+        staggerDelay={0.08}
       >
-        {categories
-          .filter((cat) => cat.image)
-          .map((cat) => (
-            <StaggerItem key={cat.id}>
-              <Link
-                to={`/products?category=${cat.id}`}
-                className="group relative block w-full aspect-[4/3] rounded-2xl overflow-hidden"
-                style={{
-                  boxShadow:
-                    "0 4px 24px -4px rgba(27,67,50,0.08), 0 1px 3px rgba(0,0,0,0.04)",
-                }}
+        {categories.map((cat) => (
+          <StaggerItem key={cat.id}>
+            <Link
+              to={`/products?category=${cat.id}`}
+              className="group relative flex flex-col items-center justify-center text-center w-full h-[100px] sm:h-[160px] md:h-[150px] rounded-2xl bg-white border border-sky-50 p-4 transition-all duration-500 shadow-[0_0_15px_rgba(14,165,233,0.15)] hover:shadow-[0_0_30px_rgba(14,165,233,0.35)] hover:border-sky-200 hover:-translate-y-1"
+            >
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-0 bg-gradient-to-r from-transparent via-sky-400 to-transparent group-hover:w-3/4 transition-all duration-500" />
+              
+              
+              <div className="relative mb-3 flex items-center justify-center w-8 h-10 md:w-11 md:h-11 rounded-xl bg-sky-50 border border-sky-100 text-xl md:text-2xl transition-all duration-500 group-hover:bg-sky-100 group-hover:scale-110 group-hover:border-sky-200 group-hover:shadow-sm">
+                <span className="transition-transform duration-500 group-hover:scale-110 text-sky-500">{cat.icon}</span>
+              </div>
+              
+              <h3
+                className="text-slate-700 font-semibold text-[12px] md:text-[13px] leading-snug tracking-tight transition-colors duration-300 group-hover:text-sky-600"
+                style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                <img
-                  src={cat.image}
-                  alt={cat.label}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
-                  loading="lazy"
-                />
-
-                <div
-                  className="absolute inset-0 transition-all duration-500"
-                  style={{
-                    background:
-                      "linear-gradient(to top, rgba(13,40,24,0.88) 0%, rgba(13,40,24,0.35) 45%, transparent 100%)",
-                  }}
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C9A84C] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-x-75 group-hover:scale-x-100" />
-
-                <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-7 z-10">
-                  <div className="mb-3 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-400 delay-75">
-                    <span
-                      className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-[#C9A84C] font-semibold px-2.5 py-1 rounded-md border border-[#C9A84C]/25 bg-[#C9A84C]/10 backdrop-blur-sm"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      <span className="w-1 h-1 rounded-full bg-[#C9A84C]" />
-                      {cat.label}
-                    </span>
-                  </div>
-
-                  <h3
-                    className="text-white font-bold text-xl md:text-[1.45rem] leading-snug mb-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]"
-                    style={{ fontFamily: "'Playfair Display', serif" }}
-                  >
-                    {cat.label}
-                  </h3>
-
-                  <p
-                    className="text-white/75 text-sm leading-relaxed line-clamp-2 mb-5 drop-shadow-sm max-w-[90%]"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  >
-                    {cat.description}
-                  </p>
-
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="inline-flex items-center gap-2 text-white/90 group-hover:text-white text-[13px] font-semibold tracking-wide translate-x-0 group-hover:translate-x-1 transition-all duration-300"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      Explore collection
-                      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/25 group-hover:border-[#C9A84C] group-hover:bg-[#C9A84C]/15 transition-all duration-300">
-                        <svg
-                          className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2.5}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </span>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    className="text-[#C9A84C]/50"
-                  >
-                    <path
-                      d="M32 32V20C26 20 20 26 20 32H32Z"
-                      fill="currentColor"
-                      opacity="0.15"
-                    />
-                    <path
-                      d="M32 32V24C28 24 24 28 24 32H32Z"
-                      fill="currentColor"
-                      opacity="0.3"
-                    />
-                  </svg>
-                </div>
-              </Link>
-            </StaggerItem>
-          ))}
+                {cat.label}
+              </h3>
+              <div className="mt-2 flex items-center justify-center w-5 h-5 rounded-full border border-sky-200 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:border-sky-400 group-hover:bg-sky-50 transition-all duration-400">
+                <svg
+                  className="w-2.5 h-2.5 text-sky-600 transition-transform duration-300 group-hover:translate-x-0.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] w-0 bg-gradient-to-r from-transparent via-sky-400 to-transparent group-hover:w-3/4 transition-all duration-500 delay-75" />
+            </Link>
+          </StaggerItem>
+        ))}
       </StaggerContainer>
 
-      
     </div>
   </section>
 );

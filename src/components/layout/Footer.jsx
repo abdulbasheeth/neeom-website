@@ -1,24 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
-import { Phone, Mail, MapPin, ArrowUp, Hotel, UtensilsCrossed, Sparkles, Leaf, Facebook, Instagram } from "lucide-react";
-import { motion } from "framer-motion";
+import { Phone, Mail, MapPin, ArrowUp, Hotel, UtensilsCrossed, Sparkles, Leaf, Facebook, Instagram, ChevronDown, ChevronUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import neomLogo from "../../assets/Neom-logo.jpg";
 
 const footerLinks = [
   { label: "Home", path: "/", isHash: false },
-  { label: "About", path: "/", isHash: true, elementId: "about" }, // Changed path to "/"
+  { label: "About", path: "/", isHash: true, elementId: "about" },
   { label: "Products", path: "/products", isHash: false },
-  { label: "Contact", path: "/", isHash: true, elementId: "contact" }, // Changed path to "/"
+  { label: "Contact", path: "/", isHash: true, elementId: "contact" },
 ];
 
 const categoryLinks = [
-  { to: "/products?category=amenities", label: "Guest Amenities", icon: Sparkles },
+  { to: "/products?category=amenities", label: "Guest Amenities & Equipments", icon: Sparkles },
   { to: "/products?category=linens", label: "Bed & Bath Linens", icon: Hotel },
-  { to: "/products?category=cleaning-tools", label: "Cleaning Tools", icon: UtensilsCrossed },
-  { to: "/products?category=eco-bags", label: "Eco Friendly Bags", icon: Leaf },
-  { to: "/products?category=non-woven", label: "Non Woven Bags", icon: Leaf },
-  { to: "/products?category=chafing", label: "Chafing Fuel", icon: UtensilsCrossed },
+  { to: "/products?category=chemicals", label: "Laundry Chemicals & Accessories", icon: UtensilsCrossed },
+  { to: "/products?category=eco-bags", label: "Eco-Friendly Sustainable Bags", icon: Leaf },
+  { to: "/products?category=non-woven", label: "Non Woven Bags & Covers", icon: Leaf },
+  { to: "/products?category=ppe", label: "Non woven Disposable Essentials PPE", icon: Leaf },
+  { to: "/products?category=promotions", label: "Promotional Give Always", icon: Sparkles },
+  { to: "/products?category=cleaning", label: "Cleaning Equipments & Accessories", icon: UtensilsCrossed },
+  { to: "/products?category=bins", label: "Bins & Trolleys", icon: Hotel },
+  { to: "/products?category=fuel", label: "Chafing Fuel & Charcoals", icon: UtensilsCrossed },
 ];
+
+// First 5 categories always visible
+const initialCategories = categoryLinks.slice(0, 5);
+// Remaining 5 categories
+const additionalCategories = categoryLinks.slice(5, 10);
 
 const container = {
   hidden: {},
@@ -45,26 +54,22 @@ const socialLinks = [
 
 const Footer = () => {
   const location = useLocation();
+  const [showAllCategories, setShowAllCategories] = useState(false);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const handleNavClick = (link, e) => {
     if (!link.isHash) return;
 
-    // If we're not on the home page, let React Router handle navigation
     if (location.pathname !== "/") {
-      return; // The Link will handle navigation to "/"
-    }
-
-    // If we're already on the home page, prevent default and scroll
+      return;
+    } 
     e.preventDefault();
     
-    // Small delay to ensure DOM is ready
     setTimeout(() => {
       const el = document.getElementById(link.elementId);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
-        // Update URL hash without causing scroll
         window.history.pushState(null, '', `#${link.elementId}`);
       }
     }, 100);
@@ -150,14 +155,16 @@ const Footer = () => {
               </ul>
             </motion.div>
 
-            {/* 3. Categories */}
+            {/* 3. Categories - Show first 5, then show more */}
             <motion.div variants={fadeUp}>
               <h4 className="text-sm font-bold text-white mb-6 uppercase tracking-widest relative">
                 Categories
                 <span className="absolute bottom-[-8px] left-0 w-8 h-0.5 bg-cyan-500 rounded-full" />
               </h4>
-              <ul className="space-y-3.5">
-                {categoryLinks.map((cat) => (
+              
+              {/* First 5 Categories - Always visible */}
+              <ul className="space-y-3.5 mb-3">
+                {initialCategories.map((cat) => (
                   <li key={cat.to}>
                     <Link
                       to={cat.to}
@@ -171,6 +178,56 @@ const Footer = () => {
                   </li>
                 ))}
               </ul>
+              
+              {/* Additional Categories - Animated reveal */}
+              <AnimatePresence>
+                {showAllCategories && (
+                  <motion.ul
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="space-y-3.5 mb-3 overflow-hidden"
+                  >
+                    {additionalCategories.map((cat) => (
+                      <motion.li
+                        key={cat.to}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <Link
+                          to={cat.to}
+                          className="group flex items-center gap-3 text-slate-400 hover:text-white transition-colors duration-300"
+                        >
+                          {cat.icon && (
+                            <cat.icon className="h-3.5 w-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                          )}
+                          <span className="text-sm font-medium">{cat.label}</span>
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+
+              {/* Show More / Show Less Button */}
+              <button
+                onClick={() => setShowAllCategories(!showAllCategories)}
+                className="group flex items-center gap-2 mt-2 text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors duration-300"
+              >
+                {showAllCategories ? (
+                  <>
+                    <ChevronUp className="h-3.5 w-3.5" />
+                    <span>Show Less</span>
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="h-3.5 w-3.5" />
+                    <span>Show More Categories</span>
+                  </>
+                )}
+              </button>
             </motion.div>
 
             {/* 4. Contact Info */}
@@ -198,7 +255,7 @@ const Footer = () => {
                     </span>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500 font-medium">Email Us</span>
-                      <span className="text-sm text-slate-300 group-hover:text-white transition-colors break-all">neomhospitalitydxb@gmail.com</span>
+                      <span className="text-sm text-slate-300 group-hover:text-white transition-colors whitespace-nowrap">info@neomhotelssupplies.com</span>
                     </div>
                   </a>
                 </li>
@@ -227,7 +284,7 @@ const Footer = () => {
           >
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
               <p className="text-xs text-slate-500 font-medium text-center md:text-left">
-                © {new Date().getFullYear()} NEOM Hospitality Supplies LLC. All rights reserved.
+                © 2024 Neom Hospitality Supplies LLC. All rights reserved.
               </p>
 
               {/* Social Icons */}

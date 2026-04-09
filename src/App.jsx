@@ -12,10 +12,13 @@ import ClientSection from "./components/Home/ClientsSection";
 import Product from './components/data/product';
 import Footer from "./components/layout/Footer";
 
+
+
 // Home Page with all sections
 function HomePage() {
   return (
     <>
+
       <Hero id="home" />
       <div id="about">
         <About />
