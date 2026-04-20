@@ -11,9 +11,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 
-/* WhatsApp API needs digits only — no "+" or spaces */
 const WHATSAPP_NUMBER = '971527087748';
-/* Formatted version for display purposes */
 const WHATSAPP_DISPLAY = '+971 52 708 7748';
 
 const ContactSection = () => {
@@ -26,28 +24,21 @@ const ContactSection = () => {
     subject: '',
     message: '',
   });
-
   const [errors, setErrors] = useState({});
   const [showToast, setShowToast] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: '' }));
-    }
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
   const validate = () => {
     const newErrors = {};
     if (!formData.firstName.trim()) newErrors.firstName = true;
     if (!formData.lastName.trim()) newErrors.lastName = true;
-    if (!formData.email.trim()) {
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim()))
       newErrors.email = true;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      newErrors.email = true;
-    }
     if (!formData.subject) newErrors.subject = true;
     if (!formData.message.trim()) newErrors.message = true;
     return newErrors;
@@ -70,27 +61,16 @@ const ContactSection = () => {
       return;
     }
 
-    /* ── Plain text WhatsApp message with ALL form fields ── */
-    const parts = [];
+    const parts = [
+      `Name: ${formData.firstName.trim()} ${formData.lastName.trim()}`,
+      `Email: ${formData.email.trim()}`,
+      formData.phone.trim() && `Phone: ${formData.phone.trim()}`,
+      formData.company.trim() && `Company: ${formData.company.trim()}`,
+      `Subject: ${subjectLabels[formData.subject] || formData.subject}`,
+      `Message: ${formData.message.trim()}`,
+    ].filter(Boolean);
 
-    parts.push(`Name: ${formData.firstName.trim()} ${formData.lastName.trim()}`);
-    parts.push(`Email: ${formData.email.trim()}`);
-
-    if (formData.phone.trim()) {
-      parts.push(`Phone: ${formData.phone.trim()}`);
-    }
-
-    if (formData.company.trim()) {
-      parts.push(`Company: ${formData.company.trim()}`);
-    }
-
-    parts.push(`Subject: ${subjectLabels[formData.subject] || formData.subject}`);
-    parts.push(`Message: ${formData.message.trim()}`);
-
-    const text = parts.join('\n');
-    const encodedText = encodeURIComponent(text);
-    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedText}`;
-
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(parts.join('\n'))}`;
     window.open(whatsappUrl, '_blank');
 
     setFormData({
@@ -107,35 +87,35 @@ const ContactSection = () => {
     setTimeout(() => setShowToast(false), 4000);
   };
 
-  const inputErrorStyle = (field) =>
-    errors[field]
-      ? { borderColor: '#e74c3c', boxShadow: '0 0 0 4px rgba(231,76,60,0.1)' }
-      : {};
+  const inputErrorClass = (field) =>
+    errors[field] ? 'border-red-500 ring-4 ring-red-100' : 'border-gray-200';
 
   return (
     <>
-      <section style={styles.section}>
-        <div style={styles.container}>
-          {/* ── Section Header ── */}
-          <div style={styles.header}>
-            <div style={styles.label}>
-              <span style={styles.labelDot} />
+      <section className="bg-gradient-to-b from-blue-50 to-white py-24 px-6 font-sans text-slate-800">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-blue-700 bg-blue-100 px-5 py-2 rounded-full mb-5">
+              <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
               Get In Touch
             </div>
-            <h2 style={styles.title}>
-              Let&apos;s Start a{' '}
-              <span style={styles.titleGradient}>Conversation</span>
+            <h2 className="text-4xl font-semibold tracking-tight mb-4">
+              Let's Start a{' '}
+              <span className="bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent">
+                Conversation
+              </span>
             </h2>
-            <p style={styles.subtitle}>
-              Have a question about our hospitality supplies? We&apos;d love to
-              hear from you. Send us a message and we&apos;ll respond promptly.
+            <p className="text-lg text-slate-500 max-w-xl mx-auto">
+              Have a question about our hospitality supplies? We'd love to hear
+              from you. Send us a message and we'll respond promptly.
             </p>
           </div>
 
-          {/* ── Main Grid ── */}
-          <div style={styles.grid}>
+          {/* Grid */}
+          <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Left: Info Cards */}
-            <div style={styles.infoPanel}>
+            <div className="space-y-5">
               <InfoCard
                 icon={<MapPin size={20} />}
                 title="Our Office"
@@ -143,11 +123,9 @@ const ContactSection = () => {
                   <>
                     NEOM Hospitality Supplies LLC
                     <br />
-                    Office No. 101 - 463, 1st Floor
+                    25°15'52.4"N 55°17'30.5"E
                     <br />
-                    Mashreq Building
-                    <br />
-                    Al Suq Al Kabeer, Dubai, UAE
+                    Dubai, UAE
                   </>
                 }
               />
@@ -156,11 +134,11 @@ const ContactSection = () => {
                 title="Email Us"
                 body={
                   <>
-                    <a href="mailto:info@neomhs.com" style={styles.link}>
+                    <a href="mailto:info@neomhs.com" className="text-blue-700 hover:text-blue-800">
                       info@neomhotelssupplies.com
                     </a>
                     <br />
-                    <a href="mailto:sales@neomhs.com" style={styles.link}>
+                    <a href="mailto:sales@neomhs.com" className="text-blue-700 hover:text-blue-800">
                       neomhospitalitydxb@gmail.com
                     </a>
                   </>
@@ -170,7 +148,7 @@ const ContactSection = () => {
                 icon={<Phone size={20} />}
                 title="Call / WhatsApp"
                 body={
-                  <a href={`tel:${WHATSAPP_DISPLAY}`} style={styles.link}>
+                  <a href={`tel:${WHATSAPP_DISPLAY}`} className="text-blue-700 hover:text-blue-800">
                     {WHATSAPP_DISPLAY}
                   </a>
                 }
@@ -187,36 +165,32 @@ const ContactSection = () => {
                 }
               />
 
-              {/* ── Clickable Google Maps ── */}
+              {/* Google Maps Card with corrected coordinates */}
               <a
-                href="https://www.google.com/maps/dir//Mashreq+Bank+Global+HQ+-+Umniyati+Street+-+off+Al+Asayel+St+-+Burj+Khalifa+-+Downtown+Dubai+-+Dubai/@25.1960343,55.2122624,13z/data=!4m18!1m8!3m7!1s0x3e5f696527561b31:0x9dddcda468434fe!2sMashreq+Bank+Global+HQ!8m2!3d25.1960343!4d55.2843602!15sCitNYXNocmVxIEJ1aWxkaW5nIEFsIFN1cSBBbCBLYWJlZXIgRHViYWkgVUFFIgOIAQFaLSIrbWFzaHJlcSBidWlsZGluZyBhbCBzdXEgYWwga2FiZWVyIGR1YmFpIHVhZZIBEGNvcnBvcmF0ZV9vZmZpY2WaASNDaFpEU1VoTk1HOW5TMFZKUTBGblNVUmtPSEZQUjBKM0VBReABAPoBBAgAEDg!16s%2Fg%2F11fp3xxcnd!4m8!1m0!1m5!1m1!1s0x3e5f696527561b31:0x9dddcda468434fe!2m2!1d55.2843602!2d25.1960343!3e0?entry=ttu&g_ep=EgoyMDI2MDQwNi4wIKXMDSoASAFQAw%3D%3D"
+                href="https://www.google.com/maps/dir/?api=1&destination=25.2645454,55.2917938"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={styles.mapLink}
+                className="block mt-1 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"
               >
-                <div style={styles.mapCard}>
+                <div className="bg-white rounded-2xl overflow-hidden h-48 relative">
                   <iframe
-                    title="NEOM Hospitality Supplies LLC – Al Suq Al Kabeer, Dubai"
-                    src="https://maps.google.com/maps?q=Mashreq+Building,+Al+Suq+Al+Kabeer,+Dubai,+UAE&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                    width="100%"
-                    height="100%"
-                    style={styles.mapIframe}
-                    allowFullScreen=""
+                    title={`NEOM Hospitality Supplies LLC – 25°15'52.4"N 55°17'30.5"E`}
+                    src="https://maps.google.com/maps?q=25.2645454,55.2917938&z=17&output=embed"
+                    className="w-full h-full border-0 saturate-[0.85] contrast-[1.05] pointer-events-none"
+                    allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                   />
-                  <div style={styles.mapOverlay}>
-                    <div style={styles.mapOverlayIcon}>
+                  <div className="absolute bottom-0 left-0 right-0 p-3.5 bg-gradient-to-t from-blue-800/75 via-blue-800/30 to-transparent flex items-center gap-3 text-white text-sm font-medium">
+                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
                       <Navigation size={14} />
                     </div>
-                    <div style={styles.mapOverlayText}>
-                      <span style={styles.mapOverlayTitle}>
-                        NEOM Hospitality Supplies LLC
-                      </span>
-                      <span style={styles.mapOverlaySub}>
-                        Click to get directions
-                        <ExternalLink size={11} style={{ marginLeft: 4, verticalAlign: 'middle' }} />
-                      </span>
+                    <div>
+                      <div className="text-sm font-semibold">NEOM Hospitality Supplies LLC</div>
+                      <div className="text-xs font-normal text-white/85 flex items-center">
+                        25°15'52.4"N 55°17'30.5"E – Get directions
+                        <ExternalLink size={11} className="ml-1" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -224,18 +198,17 @@ const ContactSection = () => {
             </div>
 
             {/* Right: Contact Form */}
-            <div style={styles.formPanel}>
-              <h3 style={styles.formTitle}>Send Us a Message</h3>
-              <p style={styles.formSubtitle}>
+            <div className="bg-white border border-blue-100 rounded-2xl p-8 md:p-10 shadow-xl">
+              <h3 className="text-2xl font-semibold mb-1">Send Us a Message</h3>
+              <p className="text-sm text-slate-500 mb-8">
                 Fill out the form below — it will open WhatsApp with all your details pre-filled.
               </p>
 
               <form onSubmit={handleSubmit} noValidate>
-                {/* Row 1 */}
-                <div style={styles.formRow}>
-                  <div style={styles.formGroup}>
-                    <label style={styles.labelText}>
-                      First Name <span style={styles.required}>*</span>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">
+                      First Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -243,12 +216,14 @@ const ContactSection = () => {
                       value={formData.firstName}
                       onChange={handleChange}
                       placeholder="John"
-                      style={{ ...styles.input, ...inputErrorStyle('firstName') }}
+                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                        'firstName'
+                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
                     />
                   </div>
-                  <div style={styles.formGroup}>
-                    <label style={styles.labelText}>
-                      Last Name <span style={styles.required}>*</span>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">
+                      Last Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -256,16 +231,17 @@ const ContactSection = () => {
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Doe"
-                      style={{ ...styles.input, ...inputErrorStyle('lastName') }}
+                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                        'lastName'
+                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
                     />
                   </div>
                 </div>
 
-                {/* Row 2 */}
-                <div style={styles.formRow}>
-                  <div style={styles.formGroup}>
-                    <label style={styles.labelText}>
-                      Email Address <span style={styles.required}>*</span>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">
+                      Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -273,49 +249,52 @@ const ContactSection = () => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="john@company.com"
-                      style={{ ...styles.input, ...inputErrorStyle('email') }}
+                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                        'email'
+                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
                     />
                   </div>
-                  <div style={styles.formGroup}>
-                    <label style={styles.labelText}>Phone Number</label>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">Phone Number</label>
                     <input
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
                       placeholder="+971 56 XXX XXXX"
-                      style={styles.input}
+                      className="w-full px-4 py-3 text-sm bg-blue-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
                     />
                   </div>
                 </div>
 
-                {/* Company */}
-                <div style={styles.formGroup}>
-                  <label style={styles.labelText}>Company Name</label>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">Company Name</label>
                   <input
                     type="text"
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
                     placeholder="Your Hotel / Business Name"
-                    style={styles.input}
+                    className="w-full px-4 py-3 text-sm bg-blue-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
                   />
                 </div>
 
-                {/* Subject */}
-                <div style={styles.formGroup}>
-                  <label style={styles.labelText}>
-                    Subject <span style={styles.required}>*</span>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">
+                    Subject <span className="text-red-500">*</span>
                   </label>
                   <select
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    style={{ ...styles.select, ...inputErrorStyle('subject') }}
+                    className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                      'subject'
+                    )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 appearance-none bg-no-repeat bg-right-4`}
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%235a7091' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")`,
+                    }}
                   >
-                    <option value="" disabled>
-                      Select a topic
-                    </option>
+                    <option value="" disabled>Select a topic</option>
                     <option value="general">General Inquiry</option>
                     <option value="products">Product Information</option>
                     <option value="quotation">Request a Quotation</option>
@@ -325,32 +304,33 @@ const ContactSection = () => {
                   </select>
                 </div>
 
-                {/* Message */}
-                <div style={styles.formGroup}>
-                  <label style={styles.labelText}>
-                    Message <span style={styles.required}>*</span>
+                <div className="mb-6">
+                  <label className="block text-sm font-medium mb-2">
+                    Message <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Tell us how we can help you..."
-                    style={{
-                      ...styles.textarea,
-                      ...inputErrorStyle('message'),
-                    }}
+                    rows={4}
+                    className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                      'message'
+                    )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all resize-vertical`}
                   />
                 </div>
 
-                <button type="submit" style={styles.submitBtn}>
+                <button
+                  type="submit"
+                  className="w-full py-3.5 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:scale-[1.02] active:scale-100"
+                >
                   <MessageCircle size={18} />
                   Send via WhatsApp
                   <ArrowRight size={18} />
                 </button>
 
-                <p style={styles.formNote}>
-                  By submitting, you agree to our privacy policy. We&apos;ll
-                  never share your information.
+                <p className="text-center text-xs text-slate-400 mt-4">
+                  By submitting, you agree to our privacy policy. We'll never share your information.
                 </p>
               </form>
             </div>
@@ -358,395 +338,44 @@ const ContactSection = () => {
         </div>
       </section>
 
-      {/* ── Toast ── */}
+      {/* Toast Notification */}
       <div
-        style={{
-          ...styles.toast,
-          transform: showToast ? 'translateY(0)' : 'translateY(120%)',
-          opacity: showToast ? 1 : 0,
-        }}
+        className={`fixed bottom-8 right-8 bg-white border border-blue-100 border-l-4 border-l-green-500 rounded-xl p-4 flex items-center gap-3 shadow-2xl transition-all duration-500 z-50 ${
+          showToast ? 'translate-y-0 opacity-100' : 'translate-y-32 opacity-0'
+        }`}
       >
-        <div style={styles.toastIcon}>
+        <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-500 flex-shrink-0">
           <Check size={16} />
         </div>
-        <div style={styles.toastText}>
-          Redirecting to WhatsApp!
-          <span style={styles.toastSub}>
-            All your details have been pre-filled. Just hit send!
-          </span>
+        <div>
+          <div className="text-sm font-medium text-slate-800">Redirecting to WhatsApp!</div>
+          <div className="text-xs text-slate-500">All your details have been pre-filled. Just hit send!</div>
         </div>
       </div>
     </>
   );
 };
 
-/* ───────── Sub-Component: InfoCard ───────── */
+/* InfoCard Subcomponent */
 const InfoCard = ({ icon, title, body }) => {
   const [hovered, setHovered] = useState(false);
-
   return (
     <div
-      style={{
-        ...styles.infoCard,
-        ...(hovered ? styles.infoCardHover : {}),
-      }}
+      className={`bg-white rounded-2xl p-7 flex gap-5 items-start transition-all duration-300 cursor-default ${
+        hovered ? 'border border-blue-200 shadow-xl -translate-y-0.5' : 'shadow-sm'
+      }`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div style={styles.infoIcon}>{icon}</div>
-      <div style={styles.infoContent}>
-        <h4 style={styles.infoTitle}>{title}</h4>
-        <p style={styles.infoBody}>{body}</p>
+      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-blue-700 to-blue-500 flex items-center justify-center text-white shadow-md">
+        {icon}
+      </div>
+      <div>
+        <h4 className="text-sm font-semibold mb-1.5">{title}</h4>
+        <p className="text-sm text-slate-500 leading-relaxed">{body}</p>
       </div>
     </div>
   );
-};
-
-/* ═══════════════════════════════════════════
-   STYLES
-   ═══════════════════════════════════════════ */
-const blue = {
-  darkest: '#0a1628',
-  dark: '#0d2b52',
-  primary: '#1558a8',
-  medium: '#1e6fd9',
-  light: '#4a9aea',
-  lighter: '#7db8f0',
-  pale: '#d6e8fa',
-  ghost: '#eef5fd',
-  white: '#ffffff',
-};
-
-const styles = {
-  section: {
-    background: `linear-gradient(180deg, ${blue.ghost} 0%, ${blue.white} 100%)`,
-    padding: '96px 24px',
-    fontFamily: "'Inter', sans-serif",
-    color: '#1a2d4a',
-    WebkitFontSmoothing: 'antialiased',
-  },
-  container: {
-    maxWidth: 1280,
-    margin: '0 auto',
-  },
-  header: { textAlign: 'center', marginBottom: 64 },
-  label: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: 8,
-    fontSize: 12,
-    fontWeight: 600,
-    letterSpacing: '0.12em',
-    textTransform: 'uppercase',
-    color: blue.primary,
-    background: blue.pale,
-    padding: '8px 20px',
-    borderRadius: 100,
-    marginBottom: 20,
-  },
-  labelDot: {
-    width: 6,
-    height: 6,
-    background: blue.light,
-    borderRadius: '50%',
-    display: 'inline-block',
-  },
-  title: {
-    fontSize: 36,
-    fontWeight: 600,
-    color: blue.darkest,
-    letterSpacing: '-0.02em',
-    lineHeight: 1.2,
-    marginBottom: 16,
-  },
-  titleGradient: {
-    background: `linear-gradient(135deg, ${blue.primary}, ${blue.light})`,
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-  },
-  subtitle: {
-    fontSize: 17,
-    fontWeight: 300,
-    color: '#5a7091',
-    maxWidth: 520,
-    margin: '0 auto',
-    lineHeight: 1.6,
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1.1fr',
-    gap: 48,
-    alignItems: 'start',
-  },
-  infoPanel: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 20,
-  },
-  infoCard: {
-    background: blue.white,
-    borderRadius: 16,
-    padding: 28,
-    display: 'flex',
-    gap: 20,
-    alignItems: 'flex-start',
-    transition: 'all 0.3s ease',
-    cursor: 'default',
-  },
-  infoCardHover: {
-    border: `1px solid ${blue.lighter}`,
-    boxShadow: '0 12px 40px -12px rgba(21,88,168,0.15)',
-    transform: 'translateY(-2px)',
-  },
-  infoIcon: {
-    flexShrink: 0,
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    background: `linear-gradient(135deg, ${blue.primary}, ${blue.medium})`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: blue.white,
-    boxShadow: '0 4px 16px -4px rgba(21,88,168,0.4)',
-  },
-  infoContent: {},
-  infoTitle: {
-    fontSize: 15,
-    fontWeight: 600,
-    color: blue.darkest,
-    marginBottom: 6,
-  },
-  infoBody: {
-    fontSize: 14,
-    fontWeight: 400,
-    color: '#5a7091',
-    lineHeight: 1.6,
-    margin: 0,
-  },
-  link: {
-    color: blue.primary,
-    textDecoration: 'none',
-    transition: 'color 0.2s',
-  },
-  mapLink: {
-    textDecoration: 'none',
-    display: 'block',
-    marginTop: 4,
-    borderRadius: 16,
-    overflow: 'hidden',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-  },
-  mapCard: {
-    background: blue.white,
-    borderRadius: 16,
-    overflow: 'hidden',
-    height: 200,
-    position: 'relative',
-    transition: 'all 0.3s ease',
-  },
-  mapIframe: {
-    border: 'none',
-    display: 'block',
-    filter: 'saturate(0.85) contrast(1.05)',
-    transition: 'filter 0.5s ease',
-    pointerEvents: 'none',
-  },
-  mapOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: '14px 18px',
-    background: 'linear-gradient(to top, rgba(21,88,168,0.75) 0%, rgba(21,88,168,0.3) 70%, transparent 100%)',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    color: blue.white,
-    fontSize: 13,
-    fontWeight: 500,
-  },
-  mapOverlayIcon: {
-    flexShrink: 0,
-    width: 34,
-    height: 34,
-    borderRadius: 10,
-    background: 'rgba(255,255,255,0.2)',
-    backdropFilter: 'blur(8px)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: '1px solid rgba(255,255,255,0.3)',
-  },
-  mapOverlayText: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 2,
-  },
-  mapOverlayTitle: {
-    fontSize: 13,
-    fontWeight: 600,
-    color: blue.white,
-    letterSpacing: '0.01em',
-  },
-  mapOverlaySub: {
-    fontSize: 11,
-    fontWeight: 400,
-    color: 'rgba(255,255,255,0.85)',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  formPanel: {
-    background: blue.white,
-    border: '1px solid #e4edf7',
-    borderRadius: 20,
-    padding: 40,
-    boxShadow: '0 20px 60px -20px rgba(10,22,40,0.08)',
-  },
-  formTitle: {
-    fontSize: 22,
-    fontWeight: 600,
-    color: blue.darkest,
-    marginBottom: 4,
-  },
-  formSubtitle: {
-    fontSize: 14,
-    fontWeight: 400,
-    color: '#5a7091',
-    marginBottom: 32,
-  },
-  formRow: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: 16,
-  },
-  formGroup: {
-    marginBottom: 20,
-  },
-  labelText: {
-    display: 'block',
-    fontSize: 13,
-    fontWeight: 500,
-    color: blue.darkest,
-    marginBottom: 8,
-  },
-  required: {
-    color: '#e74c3c',
-    marginLeft: 2,
-  },
-  input: {
-    width: '100%',
-    padding: '12px 16px',
-    fontFamily: "'Inter', sans-serif",
-    fontSize: 14,
-    fontWeight: 400,
-    color: '#1a2d4a',
-    background: blue.ghost,
-    border: '1.5px solid #e4edf7',
-    borderRadius: 10,
-    outline: 'none',
-    transition: 'all 0.25s ease',
-    boxSizing: 'border-box',
-  },
-  select: {
-    width: '100%',
-    padding: '12px 40px 12px 16px',
-    fontFamily: "'Inter', sans-serif",
-    fontSize: 14,
-    fontWeight: 400,
-    color: '#1a2d4a',
-    background: `${blue.ghost} url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%235a7091' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E") no-repeat right 14px center`,
-    border: '1.5px solid #e4edf7',
-    borderRadius: 10,
-    outline: 'none',
-    transition: 'all 0.25s ease',
-    appearance: 'none',
-    cursor: 'pointer',
-    boxSizing: 'border-box',
-  },
-  textarea: {
-    width: '100%',
-    padding: '12px 16px',
-    fontFamily: "'Inter', sans-serif",
-    fontSize: 14,
-    fontWeight: 400,
-    color: '#1a2d4a',
-    background: blue.ghost,
-    border: '1.5px solid #e4edf7',
-    borderRadius: 10,
-    outline: 'none',
-    transition: 'all 0.25s ease',
-    resize: 'vertical',
-    minHeight: 120,
-    boxSizing: 'border-box',
-  },
-  submitBtn: {
-    width: '100%',
-    padding: '14px 32px',
-    fontFamily: "'Inter', sans-serif",
-    fontSize: 15,
-    fontWeight: 600,
-    color: blue.white,
-    background: 'linear-gradient(135deg, #25D366, #128C7E)',
-    border: 'none',
-    borderRadius: 10,
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-    transition: 'all 0.3s ease',
-    boxShadow: '0 6px 24px -6px rgba(37,211,102,0.5)',
-    marginTop: 8,
-  },
-  formNote: {
-    textAlign: 'center',
-    fontSize: 12,
-    color: '#5a7091',
-    marginTop: 16,
-    opacity: 0.8,
-  },
-  toast: {
-    position: 'fixed',
-    bottom: 32,
-    right: 32,
-    background: blue.white,
-    border: '1px solid #c5d9ef',
-    borderLeft: '4px solid #25D366',
-    borderRadius: 12,
-    padding: '16px 24px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-    boxShadow: '0 16px 48px -12px rgba(0,0,0,0.15)',
-    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-    zIndex: 999,
-  },
-  toastIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: '50%',
-    background: '#eafaf1',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#25D366',
-    flexShrink: 0,
-  },
-  toastText: {
-    fontSize: 14,
-    fontWeight: 500,
-    color: blue.darkest,
-  },
-  toastSub: {
-    display: 'block',
-    fontSize: 12,
-    fontWeight: 400,
-    color: '#5a7091',
-    marginTop: 2,
-  },
 };
 
 export default ContactSection;

@@ -38,39 +38,78 @@ import image0732 from "../../assets/7.Bins&Trolleys/07image32.jpg";
 
 
 export const folder7Images = [
-  { id: "f7-1", name: "Delivery Trolley", category: "bins", ecoFriendly: false,  image: image071 },
+{ id: "f7-34", name: "Room Bins 1", category: "bins", ecoFriendly: false, image: image0734 },
+  { id: "f7-28", name: "Room Bins 2", category: "bins", ecoFriendly: false, image: image0728 },
+  { id: "f7-29", name: "Room Bins 3", category: "bins", ecoFriendly: false, image: image0729 },
   { id: "f7-2", name: "Eko Bins 1", category: "bins", ecoFriendly: false,  image: image072 },
   { id: "f7-3", name: "Eko Bins 2", category: "bins", ecoFriendly: false,  image: image073 },
   { id: "f7-4", name: "Eko Bins 3", category: "bins", ecoFriendly: false,  image: image074 },
   { id: "f7-5", name: "Eko Bins 4", category: "bins", ecoFriendly: false,  image: image075 },
-  { id: "f7-6", name: "Extra Beds", category: "bins", ecoFriendly: false,  image: image076 },
-  { id: "f7-8", name: "Laundry Cage Trolley", category: "bins", ecoFriendly: false,  image: image078 },
-  { id: "f7-9", name: "Laundry Delivery Trolley 1", category: "bins", ecoFriendly: false,  image: image079 },
-  { id: "f7-10", name: "Laundry Delivery Trolley 2", category: "bins", ecoFriendly: false, image: image0710 },
-  { id: "f7-11", name: "Linen Collection Trolley 1", category: "bins", ecoFriendly: false, image: image0711 },
-  { id: "f7-12", name: "Linen Collection Trolley 2", category: "bins", ecoFriendly: false, image: image0712 },
-  { id: "f7-13", name: "Linen Collection Trolley 3", category: "bins", ecoFriendly: false, image: image0713 },
-  { id: "f7-14", name: "Lobby Bins 1", category: "bins", ecoFriendly: false, image: image0714 },
+ { id: "f7-14", name: "Lobby Bins 1", category: "bins", ecoFriendly: false, image: image0714 },
   { id: "f7-15", name: "Lobby Bins 2", category: "bins", ecoFriendly: false, image: image0715 },
   { id: "f7-16", name: "Lobby Bins 3", category: "bins", ecoFriendly: false, image: image0716 },
   { id: "f7-17", name: "Lobby Bins 4", category: "bins", ecoFriendly: false, image: image0717 },
   { id: "f7-18", name: "Lobby Bins 5", category: "bins", ecoFriendly: false, image: image0718 },
   { id: "f7-19", name: "Lobby Bins 6", category: "bins", ecoFriendly: false, image: image0719 },
-  { id: "f7-20", name: "Luggage Trolley 1", category: "bins", ecoFriendly: false, image: image0720 },
+{ id: "f7-11", name: "Linen Collection Trolley 1", category: "bins", ecoFriendly: false, image: image0711 },
+  { id: "f7-12", name: "Linen Collection Trolley 2", category: "bins", ecoFriendly: false, image: image0712 },
+  { id: "f7-13", name: "Linen Collection Trolley 3", category: "bins", ecoFriendly: false, image: image0713 },
+{ id: "f7-8", name: "Laundry Cage Trolley", category: "bins", ecoFriendly: false,  image: image078 },
+  { id: "f7-9", name: "Laundry Delivery Trolley 1", category: "bins", ecoFriendly: false,  image: image079 },
+{ id: "f7-20", name: "Luggage Trolley 1", category: "bins", ecoFriendly: false, image: image0720 },
   { id: "f7-21", name: "Luggage Trolley 2", category: "bins", ecoFriendly: false, image: image0721 },
-  { id: "f7-22", name: "Outdoor Bin 1", category: "bins", ecoFriendly: false, image: image0722 },
-  { id: "f7-23", name: "Outdoor Bin 2", category: "bins", ecoFriendly: false, image: image0723 },
-  { id: "f7-24", name: "Outdoor Bin 3", category: "bins", ecoFriendly: false, image: image0724 },
-  { id: "f7-25", name: "Outdoor Bin 4", category: "bins", ecoFriendly: false, image: image0725 },
-  { id: "f7-26", name: "Outdoor Bin 5", category: "bins", ecoFriendly: false, image: image0726 },
   { id: "f7-33", name: "Outdoor Bin 6", category: "bins", ecoFriendly: false, image: image0733 },
-  { id: "f7-34", name: "Room Bins 1", category: "bins", ecoFriendly: false, image: image0734 },
-  { id: "f7-28", name: "Room Bins 2", category: "bins", ecoFriendly: false, image: image0728 },
-  { id: "f7-29", name: "Room Bins 3", category: "bins", ecoFriendly: false, image: image0729 },
-  { id: "f7-35", name: "Room Service Trolley 1", category: "bins", ecoFriendly: false, image: image0735 },
-  { id: "f7-36", name: "Plastic Bins 1", category: "bins", ecoFriendly: false, image: image0736 },
-  { id: "f7-27", name: "Plastic Bins 2", category: "bins", ecoFriendly: false, image: image0727 },
+  { id: "f7-26", name: "Outdoor Bin 5", category: "bins", ecoFriendly: false, image: image0726 },
+  { id: "f7-24", name: "Outdoor Bin 3", category: "bins", ecoFriendly: false, image: image0724 },{ id: "f7-25", name: "Outdoor Bin 4", category: "bins", ecoFriendly: false, image: image0725 },
+ { id: "f7-23", name: "Outdoor Bin 2", category: "bins", ecoFriendly: false, image: image0723 },
+{ id: "f7-22", name: "Outdoor Bin 1", category: "bins", ecoFriendly: false, image: image0722 },
+ { id: "f7-36", name: "Plastic Bins 1", category: "bins", ecoFriendly: false, image: image0736 },
+  { id: "f7-27", name: "Plastic Bins ", category: "bins", ecoFriendly: false, image: image0727 },
+{ id: "f7-1", name: "Delivery Trolley", category: "bins", ecoFriendly: false,  image: image071 },
+   { id: "f7-35", name: "Room Service Trolley 1", category: "bins", ecoFriendly: false, image: image0735 },
   { id: "f7-30", name: "Room Service Trolley 2", category: "bins", ecoFriendly: false, image: image0730 },
   { id: "f7-31", name: "Room Service Trolley 3", category: "bins", ecoFriendly: false, image: image0731 },
-  { id: "f7-32", name: "Room Service Trolley 4", category: "bins", ecoFriendly: false, image: image0732 },
+  { id:"f7-32", name: "Room Service Trolley 4", category: "bins", ecoFriendly: false, image: image0732 },
+   { id: "f7-10", name: "Laundry Delivery Trolley 2", category: "bins", ecoFriendly: false, image: image0710 },
+  { id: "f7-6", name: "Extra Beds", category: "bins", ecoFriendly: false,  image: image076 },
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+ 
+  
+  
+  
+  
+ 
 ]

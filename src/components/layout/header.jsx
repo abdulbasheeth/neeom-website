@@ -64,10 +64,12 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full">
+      {/* Main header bar */}
       <div
         className={`transition-all duration-300 ${
           scrolled
-            ? "mx-5 rounded-xl bg-white shadow-lg border-transparent"
+            ? // When scrolled: responsive margins, 30px top margin, rounded corners, white bg, glow effect
+              "mx-4 md:mx-[80px] mt-[0] rounded-4xl bg-white shadow-[0_20px_35px_-12px_rgba(0,0,0,0.3),0_0_15px_3px_rgba(2,136,209,0.4)] border-transparent"
             : `border-b ${
                 location.pathname === '/'
                   ? "bg-transparent border-transparent"
@@ -76,8 +78,7 @@ const Header = () => {
         }`}
       >
         <div className="container mx-auto flex items-center justify-between py-1 px-4">
-          
-          {/* Logo Section - Hover effects removed */}
+          {/* Logo Section */}
           <Link to="/" className="flex items-center gap-3 relative z-10 flex-shrink-0">
             <div className="p-1">
               <img
@@ -140,13 +141,13 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - aligns with same margins and 30px top margin when scrolled */}
       <div
         className={`md:hidden absolute bg-white border-b shadow-xl transition-all duration-300 overflow-hidden ${
           mobileOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
         } ${
           scrolled 
-            ? "mx-5 rounded-b-xl mt-1" 
+            ? "mx-[20px] mt-[30px] rounded-b-3xl"   // 30px top margin when scrolled
             : "w-full"
         }`}
       >
@@ -182,5 +183,5 @@ const Header = () => {
     </header>
   );
 };
- 
+
 export default Header;

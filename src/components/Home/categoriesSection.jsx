@@ -164,7 +164,7 @@ const CategoriesSection = () => (
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Discover premium products curated for the hospitality industry, from
-              kitchen essentials to elegant decor.
+              guest essentials to elegant decor.
             </p>
           </div>
         </div>

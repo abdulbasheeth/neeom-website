@@ -106,7 +106,7 @@ const About = () => (
               <Sparkles className="w-7 h-7 text-indigo-500 flex-shrink-0 mt-1" />
               <div>
                 <h3 className="font-bold text-2xl text-slate-900 leading-snug mb-1">
-                  Turnkey OSSE Provider
+                  Turnkey OS&E Providers With B2B/B2C Offerings
                 </h3>
                 <p className="text-base text-slate-500">
                   Operating across the GCC & Africa region.
@@ -122,10 +122,10 @@ const About = () => (
           {/* Stats Grid - Fixed Alignment */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-slate-200">
             {[
-              { value: "300+", label: "Happy Customer" },
-              { value: "150+", label: "Supply Brands" },
+              { value: "150+", label: "Happy Customer" },
+              { value: "100+", label: "Supply Brands" },
               { value: "400+", label: "Products" },
-              { value: "100+", label: "Projects Completed" }
+              { value: "50+", label: "Projects Completed" }
             ].map((stat, index) => (
               <motion.div 
                 key={index}

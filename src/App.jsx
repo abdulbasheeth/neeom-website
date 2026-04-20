@@ -10,6 +10,7 @@ import BrandSection from "./components/Home/brandsSection";
 import Contacts from "./components/pages/contact";
 import ClientSection from "./components/Home/ClientsSection";
 import Product from './components/data/product';
+
 import Footer from "./components/layout/Footer";
 
 
@@ -29,6 +30,7 @@ function HomePage() {
         <Contacts />
       </div>
       <ClientSection />
+  
       <Footer />
     </>
   );
@@ -65,6 +67,7 @@ function App() {
 
   return (
     <div className="App">
+      
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />

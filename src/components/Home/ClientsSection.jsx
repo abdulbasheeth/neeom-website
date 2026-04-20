@@ -173,15 +173,15 @@ const ClientsSection = () => {
 
         {/* Stats - REDUCED SIZE */}
         <motion.div
-          className="mt-10 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10"
+          className="mt-10 mb-10 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
           {[
-            { number: "500+", label: "Global Clients", icon: "🏢" },
-            { number: "98%", label: "Satisfaction Rate", icon: "⭐" },
+            { number: "100+", label: "Global Clients", icon: "🏢" },
+            { number: "90%", label: "Satisfaction Rate", icon: "⭐" },
             { number: "24/7", label: "Expert Support", icon: "💬" },
           ].map((item, i) => (
             <div key={i} className="text-center group relative">
@@ -199,20 +199,7 @@ const ClientsSection = () => {
           ))}
         </motion.div>
         
-        {/* Trust Badge */}
-        <motion.div
-          className="mt-10 mb-20 text-center"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-xs text-slate-400 flex items-center justify-center gap-2">
-            <span>🔒</span>
-            <span>Join 1,000+ businesses that trust our expertise</span>
-            <span>✨</span>
-          </p>
-        </motion.div>
+        
 
       </div>
     </section>

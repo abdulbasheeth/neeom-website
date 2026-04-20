@@ -15,13 +15,13 @@ import { folder10Images } from "./Folder10";
 export const categories = [
   { id: "amenities", label: "Guest Amenities & Equipments", icon: "🧴" },
   { id: "linens", label: "Bed & Bath Linens", icon: "🛏️" },
-  { id: "chemicals", label: "Laundry Chemicals & Accessories", icon: "🧪" },
+  { id: "chemicals", label: "Laundry Chemicals & Accessories", icon: "🫙" },
   { id: "eco-bags", label: "Eco-Friendly Sustainable Bags", icon: "♻️" },
-  { id: "non-woven", label: "Non Woven Bags & Covers", icon: "👜" },
-  { id: "ppe", label: "Non woven Disposable Essentials PPE", icon: "🧤" },
+  { id: "non-woven", label: "Non Woven Bags & Covers", icon: "🛍️" },
+  { id: "ppe", label: "Non woven Disposable Essentials PPE", icon: "🥼" },
   { id: "promotions", label: "Promotional Give Always", icon: "🎁" },
   { id: "cleaning", label: "Cleaning Equipments & Accessories", icon: "🧹" },
-  { id: "bins", label: "Bins & Trolleys", icon: "🗑️" },
+  { id: "bins", label: "Bins & Trolleys", icon: "🛒" },
   { id: "fuel", label: "Chafing Fuel & Charcoals", icon: "🔥" },
 ];
 
@@ -72,17 +72,25 @@ const Product = () => {
 
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [searchQuery, setSearchQuery] = useState("");
+  // Store IDs of products that were clicked for a quote, ordered by most recent click
+  const [fastMovingIds, setFastMovingIds] = useState([]);
 
   const searchRef = useRef(null);
 
-  // --- NEW HANDLER FOR WHATSAPP ---
-  const handleWhatsAppClick = (productName) => {
-    const phoneNumber = "971527087748"; // Cleaned number
-    const message = `Hi, I am interested in getting a quote for: ${productName}`;
+  // --- WHATSAPP HANDLER with "Fast Moving" logic ---
+  const handleWhatsAppClick = (product) => {
+    const phoneNumber = "971527087748";
+    const message = `Hi, I am interested in getting a quote for: ${product.name}`;
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
+
+    // Move this product to the top of the fast‑moving list (most recent click first)
+    setFastMovingIds(prev => {
+      const filtered = prev.filter(id => id !== product.id);
+      return [product.id, ...filtered];
+    });
   };
-  // -------------------------------
+  // ------------------------
 
   const scrollToSearch = useCallback((behavior = 'smooth') => {
     if (searchRef.current) {
@@ -112,6 +120,29 @@ const Product = () => {
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
+
+  // SORT PRODUCTS: fast‑moving first (ordered by most recent click), then original order
+  const sortedProducts = useMemo(() => {
+    const fastIndexMap = new Map();
+    fastMovingIds.forEach((id, idx) => {
+      fastIndexMap.set(id, idx);
+    });
+
+    const fastProducts = [];
+    const otherProducts = [];
+
+    for (const product of filteredProducts) {
+      if (fastIndexMap.has(product.id)) {
+        fastProducts.push(product);
+      } else {
+        otherProducts.push(product);
+      }
+    }
+
+    fastProducts.sort((a, b) => fastIndexMap.get(a.id) - fastIndexMap.get(b.id));
+
+    return [...fastProducts, ...otherProducts];
+  }, [filteredProducts, fastMovingIds]);
 
   const handleSearchChange = useCallback((e) => {
     setSearchQuery(e.target.value);
@@ -224,13 +255,13 @@ const Product = () => {
                   ? categories.find(c => c.id === selectedCategory)?.label
                   : "All Products"}
               </h2>
-              <span className="text-sm text-slate-500">{filteredProducts.length} items</span>
+              <span className="text-sm text-slate-500">{sortedProducts.length} items</span>
             </div>
 
             {/* Product Grid */}
-            {filteredProducts.length > 0 ? (
+            {sortedProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredProducts.map((product) => (
+                {sortedProducts.map((product) => (
                   <div
                     key={product.id}
                     className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-slate-100 flex flex-col relative"
@@ -246,6 +277,14 @@ const Product = () => {
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90"></div>
+                      
+                      {/* Fast Moving Badge - positioned at top-right so it doesn't hide any logo on the left */}
+                      {fastMovingIds.includes(product.id) && (
+                        <div className="absolute top-3 right-3 z-10 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1">
+                          <span>🔥</span> Fast Moving
+                        </div>
+                      )}
+                      
                       <div className="absolute bottom-0 left-0 right-0 p-5">
                         <h3 className="text-white text-xl font-bold tracking-tight leading-tight drop-shadow-lg">
                           {product.name}
@@ -254,11 +293,16 @@ const Product = () => {
                     </div>
                     <div className="p-4 bg-slate-50 border-t border-slate-100">
                       <button 
-                        onClick={() => handleWhatsAppClick(product.name)}
-                        className="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold text-sm hover:bg-green-600 active:scale-[0.98] transition-all duration-200 shadow-sm group-hover:shadow-md flex items-center justify-center gap-2"
+                        onClick={() => handleWhatsAppClick(product)}
+                        className="w-full bg-green-700 text-white py-3 rounded-xl font-semibold text-sm hover:bg-green-500 active:scale-[0.98] transition-all duration-200 shadow-sm group-hover:shadow-md flex items-center justify-center gap-2"
                       >
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        <svg 
+                          className="h-4 w-4" 
+                          viewBox="0 0 24 24" 
+                          fill="currentColor" 
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.15-.67.149-.198.297-.767.967-.94 1.165-.173.198-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.019-.458.13-.606.134-.134.298-.347.447-.52.149-.174.198-.297.298-.495.099-.198.05-.371-.025-.52-.075-.149-.67-1.614-.918-2.21-.242-.579-.487-.5-.67-.51-.173-.01-.371-.01-.57-.01-.198 0-.52.074-.792.371-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
                         </svg>
                         Get a Quote
                       </button>
