@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import Header from "./components/Layout/Header";
+import Navbar from "./components/Layout/Navbar";
 import Hero from "./components/Home/heroSection";
 import About from "./components/pages/About";
 import CategoriesSection from './components/Home/categoriesSection';
@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Navbar />
       <div className="relative z-0">
         <Routes>
           <Route path="/" element={<HomePage />} />
