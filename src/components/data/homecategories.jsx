@@ -1,3 +1,8 @@
+import React from "react";
+import { FaPumpSoap } from "react-icons/fa";
+import { Shirt } from "lucide-react";
+import trolleyIconUrl from "../../assets/bins.svg"; 
+
 export const categories = [
   {
     id: "amenities",
@@ -15,14 +20,17 @@ export const categories = [
     description: "Indulge your guests with our premium bed and bath linens...",
     image: "https://neomhotelsupplies.com/wp-content/uploads/2025/04/Bed-linens-by-icon-linens-1.jpg",
   },
-  {
-    id: "chemicals",
-    slug: "chemicals-and-accessories",
-    label: "Laundry Chemicals & Accessories",
-    icon: "🫙",
-    description: "Ensure spotless results with our high-quality laundry chemicals and accessories...",
-    image: "https://neomhotelsupplies.com/wp-content/uploads/2025/04/Effective-industrial-cleaning-ma.jpg",
-  },
+
+
+{
+  id: "chemicals",
+  slug: "chemicals-and-accessories",
+  label: "Laundry Chemicals & Accessories",
+  icon: <FaPumpSoap color="#E63946" size={22} />, // 🔴 change color here
+  description: "Ensure spotless results with our high-quality laundry chemicals and accessories...",
+  image: "https://neomhotelsupplies.com/wp-content/uploads/2025/04/Effective-industrial-cleaning-ma.jpg",
+},
+
     {
     id: "eco-bags",
     slug: "eco-friendly-reusable-bags",
@@ -39,20 +47,30 @@ export const categories = [
     description: "Indulge your guests with our premium non-woven bags and covers...",
     image: "https://neomhotelsupplies.com/wp-content/uploads/2025/04/51RisLFyUjL._AC_UF10001000_QL80.jpg",
   },
-    {
+
+ {
     id: "ppe",
     slug: "disposable-ppe",
     label: "Non Woven Disposable Essentials PPE",
-    icon: "🥼",
-    description: "Protect your staff and guests with our range of disposable personal protective equipment...",
+    icon: (
+      <Shirt
+        className="w-6 h-6"
+        style={{
+          fill: "#2563eb",
+          stroke: "#2563eb",
+        }}
+      />
+    ),
+    description:
+      "Protect your staff and guests with our range of disposable personal protective equipment...",
     image: "",
   },
-  
+
 
   {
     id: "promotions",
     slug: "promotional-giveaways",
-    label: "Promotional Give Aways",
+    label: "Corporate Gifts & Giveaways",
     icon: "🎁",
     description: "Make a lasting impression with our customized promotional giveaways...",
     image: "https://neomhotelsupplies.com/wp-content/uploads/2025/04/promotional-products-samples-108.jpg",
@@ -67,15 +85,14 @@ export const categories = [
     image: "https://neomhotelsupplies.com/wp-content/uploads/2025/04/home-cleaning-set-ai-technology-.webp",
   },
 
-
-    {
+{
     id: "bins",
     slug: "trolleys-and-bins",
-    label: "Bins &  Trolleys",
-    icon: "🛒",
+    label: "Bins & Trolleys",
+    icon: <img src={trolleyIconUrl} alt="trolley" style={{ width: 35, height: 35 }} />,
     description: "Keep your operations smooth and efficient with our durable trolleys...",
     image: "https://neomhotelsupplies.com/wp-content/uploads/2025/04/istockphoto-1373252677-612x612-1.jpg",
-  },
+},
      {
     id: "fuel",
     slug: "chafing-fuel-and-charcoal",

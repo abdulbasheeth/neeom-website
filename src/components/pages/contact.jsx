@@ -92,7 +92,7 @@ const ContactSection = () => {
 
   return (
     <>
-      <section className="bg-gradient-to-b from-blue-50 to-white py-24 px-6 font-sans text-slate-800">
+      <section id='contact' className="bg-gradient-to-b from-blue-50 to-white py-24 px-6 font-sans text-slate-800">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
@@ -167,7 +167,7 @@ const ContactSection = () => {
 
               {/* Google Maps Card with corrected coordinates */}
               <a
-                href="https://www.google.com/maps/dir/?api=1&destination=25.2645454,55.2917938"
+                href="https://www.google.com/maps/place/25%C2%B015'52.4%22N+55%C2%B017'30.5%22E/@25.2645454,55.2892189,17z/data=!3m1!4b1!4m4!3m3!8m2!3d25.2645454!4d55.2917938?hl=en&entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block mt-1 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"

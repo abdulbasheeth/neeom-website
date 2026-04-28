@@ -18,8 +18,7 @@ import image16 from "../../assets/1.Guest Amenities & Equipments/01image16.jpg";
 import image17 from "../../assets/1.Guest Amenities & Equipments/01image17.jpg";
 import image18 from "../../assets/1.Guest Amenities & Equipments/01image18.jpg";
 import image19 from "../../assets/1.Guest Amenities & Equipments/01image19.jpg";
-import image20 from "../../assets/1.Guest Amenities & Equipments/01image20.jpg";
-import image21 from "../../assets/1.Guest Amenities & Equipments/01image21.jpg";
+
 import image22 from "../../assets/1.Guest Amenities & Equipments/01image22.jpg";
 import image23 from "../../assets/1.Guest Amenities & Equipments/01image23.jpg";
 import image24 from "../../assets/1.Guest Amenities & Equipments/01image24.jpg";
@@ -69,7 +68,8 @@ export const productImages = [
   { id: "amenity-29", name: "Loofah Pad Body Scrubber 2", category: "amenities", ecoFriendly: false, image: image29 },
   { id: "amenity-3", name: "Dental Kit 1", category: "amenities", ecoFriendly: false, image: image3 },
   { id: "amenity-4", name: "Dental Kit 2", category: "amenities", ecoFriendly: false, image: image4 },
-    { id: "amenity-7", name: "Disposable Hotel Vanity Kit", category: "amenities", ecoFriendly: false, image: image7 },
+  { id: "amenity-48", name: "Toothbrush kit 9", category: "amenities", ecoFriendly: false, image: image48 }, 
+  { id: "amenity-7", name: "Disposable Hotel Vanity Kit", category: "amenities", ecoFriendly: false, image: image7 },
   { id: "amenity-9", name: "Disposable Shaving Kit", category: "amenities", ecoFriendly: false, image: image9 },
   { id: "amenity-5", name: "Disposable Cotton Buds", category: "amenities", ecoFriendly: false, image: image5 },
   { id: "amenity-52", name: "Wooden Cotton Buds", category: "amenities", ecoFriendly: false, image: image52 },
@@ -113,10 +113,8 @@ export const productImages = [
 { id: "amenity-19", name: "Bottle opener 1", category: "amenities", ecoFriendly: false, image: image19 },
   { id: "amenity-1", name: "Ashtray 1", category: "amenities", ecoFriendly: false, image: image1 },
   { id: "amenity-18", name: "Ashtray 2", category: "amenities", ecoFriendly: false, image: image18 },  
-  { id: "amenity-20", name: "Coat Hanger Mahogany", category: "amenities", ecoFriendly: false, image: image20 },
-  { id: "amenity-21", name: "Coat Hanger Natural", category: "amenities", ecoFriendly: false, image: image21 },
   { id: "amenity-22", name: "Iron Board", category: "amenities", ecoFriendly: false, image: image22 },
-  { id: "amenity-48", name: "Toothbrush kit 9", category: "amenities", ecoFriendly: false, image: image48 },
+  
   
   
   

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-
+import AIChatBox from '../Ui/AiChatbox'; 
 import { productImages } from "./productImages";
 import { folder2Images } from "./Folder2";
 import { folder3Images } from "./Folder3";
@@ -11,6 +11,7 @@ import { folder5Images } from "./Folder5";
 import { folder7Images } from "./Folder7";
 import { folder6Images } from "./Folder6";
 import { folder10Images } from "./Folder10";
+import trolleyIconUrl from "../../assets/bins.svg"; 
 
 export const categories = [
   { id: "amenities", label: "Guest Amenities & Equipments", icon: "🧴" },
@@ -19,13 +20,17 @@ export const categories = [
   { id: "eco-bags", label: "Eco-Friendly Sustainable Bags", icon: "♻️" },
   { id: "non-woven", label: "Non Woven Bags & Covers", icon: "🛍️" },
   { id: "ppe", label: "Non woven Disposable Essentials PPE", icon: "🥼" },
-  { id: "promotions", label: "Promotional Give Always", icon: "🎁" },
+  { id: "promotions", label: "Corporate Gifts & Giveaways", icon: "🎁" },
   { id: "cleaning", label: "Cleaning Equipments & Accessories", icon: "🧹" },
-  { id: "bins", label: "Bins & Trolleys", icon: "🛒" },
+  {
+  id: "bins",
+  label: "Bins & Trolleys",
+  icon: <img src={trolleyIconUrl} alt="trolley" style={{ width: 30, height: 30 }} />,
+  },
   { id: "fuel", label: "Chafing Fuel & Charcoals", icon: "🔥" },
 ];
 
-const allProducts = [
+export const allProducts = [
   ...productImages,
   ...folder2Images,
   ...folder3Images,
@@ -72,25 +77,21 @@ const Product = () => {
 
   const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl);
   const [searchQuery, setSearchQuery] = useState("");
-  // Store IDs of products that were clicked for a quote, ordered by most recent click
   const [fastMovingIds, setFastMovingIds] = useState([]);
 
   const searchRef = useRef(null);
 
-  // --- WHATSAPP HANDLER with "Fast Moving" logic ---
   const handleWhatsAppClick = (product) => {
     const phoneNumber = "971527087748";
     const message = `Hi, I am interested in getting a quote for: ${product.name}`;
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
 
-    // Move this product to the top of the fast‑moving list (most recent click first)
     setFastMovingIds(prev => {
       const filtered = prev.filter(id => id !== product.id);
       return [product.id, ...filtered];
     });
   };
-  // ------------------------
 
   const scrollToSearch = useCallback((behavior = 'smooth') => {
     if (searchRef.current) {
@@ -121,7 +122,6 @@ const Product = () => {
     });
   }, [selectedCategory, searchQuery]);
 
-  // SORT PRODUCTS: fast‑moving first (ordered by most recent click), then original order
   const sortedProducts = useMemo(() => {
     const fastIndexMap = new Map();
     fastMovingIds.forEach((id, idx) => {
@@ -196,7 +196,7 @@ const Product = () => {
             {/* Search Section */}
             <div ref={searchRef} className="mb-8 scroll-mt-20">
               <h1 className="text-3xl font-bold text-slate-900 mb-2">Product Search</h1>
-              <p className="text-slate-500 mb-4">Find the perfect items for your business needs.</p>
+              <p className="text-slate-500 mt-10 mb-4">Find the perfect items for your business needs.</p>
 
               <div className="relative">
                 <label htmlFor="search" className="sr-only">Search by product name</label>
@@ -278,7 +278,6 @@ const Product = () => {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90"></div>
                       
-                      {/* Fast Moving Badge - positioned at top-right so it doesn't hide any logo on the left */}
                       {fastMovingIds.includes(product.id) && (
                         <div className="absolute top-3 right-3 z-10 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center gap-1">
                           <span>🔥</span> Fast Moving
@@ -326,6 +325,9 @@ const Product = () => {
           </main>
         </div>
       </div>
+
+      {/* AI Chat Box - placed at the bottom right */}
+      <AIChatBox products={allProducts} categoriesList={categories} />
 
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {

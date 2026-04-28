@@ -18,9 +18,6 @@ import image0916 from "../../assets/9.Nonwovenbags&covers/09image16.jpg";
 import image0917 from "../../assets/9.Nonwovenbags&covers/09image17.jpg";
 import image0918 from "../../assets/9.Nonwovenbags&covers/09image18.jpg";
 import image0919 from "../../assets/9.Nonwovenbags&covers/09image19.jpg";
-import image0920 from "../../assets/9.Nonwovenbags&covers/09image20.jpg";
-import image0921 from "../../assets/9.Nonwovenbags&covers/09image21.jpg";
-import image0922 from "../../assets/9.Nonwovenbags&covers/09image22.jpg";
 import image0949 from "../../assets/9.Nonwovenbags&covers/09image49.jpg";
 import image0923 from "../../assets/9.Nonwovenbags&covers/09image23.jpg";
 import image0924 from "../../assets/9.Nonwovenbags&covers/09image24.jpg";
@@ -65,9 +62,6 @@ export const folder9Images = [
 { id: "f9-25", name: "Non-woven d Cut Bag 3", category: "non-woven", ecoFriendly: false, image: image0925 },
 { id: "f9-18", name: "Laundry Bag 1", category: "non-woven", ecoFriendly: false, image: image0918 },
 { id: "f9-19", name: "Laundry Bag 2", category: "non-woven", ecoFriendly: false, image: image0919 },
-{ id: "f9-20", name: "Laundry Bag 3", category: "non-woven", ecoFriendly: false, image: image0920 },
-{ id: "f9-21", name: "Laundry Bag 4", category: "non-woven", ecoFriendly: false, image: image0921 },
-{ id: "f9-22", name: "Laundry Bag 5", category: "non-woven", ecoFriendly: false, image: image0922 },
 { id: "f9-49", name: "Laundry Bag 6", category: "non-woven", ecoFriendly: false, image: image0949 },
 { id: "f9-40", name: "Shopping Bag 1", category: "non-woven", ecoFriendly: false, image: image0940 },
 { id: "f9-41", name: "Shopping Bag 2", category: "non-woven", ecoFriendly: false, image: image0941 },

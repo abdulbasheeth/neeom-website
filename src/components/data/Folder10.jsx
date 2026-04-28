@@ -1,5 +1,5 @@
 import React from "react";
-import image101 from "../../assets/10.PPE/10image1.jpg";
+
 import image102 from "../../assets/10.PPE/10image2.jpg";
 import image103 from "../../assets/10.PPE/10image3.jpg";
 import image104 from "../../assets/10.PPE/10image4.jpg";
@@ -32,9 +32,10 @@ export const folder10Images = [
 { id: "f10-19", name: "Isolation Gown 5", category: "ppe", ecoFriendly: false, image: image1019 },
 { id: "f10-20", name: "Isolation Gown 6", category: "ppe", ecoFriendly: false, image: image1020 },
 { id: "f10-21", name: "Isolation Gown 7", category: "ppe", ecoFriendly: false, image: image1021 },
+
 { id: "f10-5", name: "Disposable Lab Coat 1", category: "ppe", ecoFriendly: false, image: image105 },
 { id: "f10-8", name: "Disposable Lab Coat 2", category: "ppe", ecoFriendly: false, image: image108 },
-{ id: "f10-1", name: "Disposable Coverall 1", category: "ppe", ecoFriendly: false, image: image101 },
+
 { id: "f10-2", name: "Disposable Coverall 2", category: "ppe", ecoFriendly: false, image: image102 },
 { id: "f10-3", name: "Disposable Coverall 3", category: "ppe", ecoFriendly: false, image: image103 },
 { id: "f10-4", name: "Disposable Coverall 4", category: "ppe", ecoFriendly: false, image: image104 },
@@ -46,6 +47,5 @@ export const folder10Images = [
 { id: "f10-14", name: "Disposable Visitors Coat", category: "ppe", ecoFriendly: false, image: image1014 },
 { id: "f10-12", name: "Disposable Shoe Cover 1", category: "ppe", ecoFriendly: false, image: image1012 },
 { id: "f10-13", name: "Disposable Shoe Cover 2", category: "ppe", ecoFriendly: false, image: image1013 },
-{ id: "f10-22", name: "Isolation Gown 8", category: "ppe", ecoFriendly: false, image: image1022 },
-{ id: "f10-23", name: "Non woven Isolation Gown", category: "ppe", ecoFriendly: false, image: image1023 }
+
 ]

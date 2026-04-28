@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
 import { ScrollReveal } from "../Ui/scroll-reveal";
 
 // Images
@@ -27,15 +27,32 @@ const brands = [
 const loopBrands = [...brands, ...brands];
 
 const BrandsSection = () => {
+  const controls = useAnimation();
   const [isPaused, setIsPaused] = useState(false);
 
-  return (
-    <section className="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-white via-gray-50/30 to-white dark:from-[#0a0a0a] dark:via-gray-900/50 dark:to-[#0a0a0a]">
+  useEffect(() => {
+    if (isPaused) {
+      controls.stop();
+    } else {
+      controls.start({
+        x: ["0%", "-50%"],
+        transition: {
+          ease: "linear",
+          duration: 25,
+          repeat: Infinity,
+          repeatType: "loop",
+          repeatDelay: 0,
+        },
+      });
+    }
+  }, [isPaused, controls]);
 
+  return (
+    <section className="relative py-2 md:py-5 overflow-hidden bg-gradient-to-b from-white via-gray-50/30 to-white dark:from-[#0a0a0a] dark:via-gray-900/50 dark:to-[#0a0a0a]">
       {/* Header */}
-      <div className="text-center mb-16 px-6">
+      <div className="text-center px-6">
         <ScrollReveal>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold pt-5">
             <span className="bg-gradient-to-r from-[#0B2B5B] via-[#1A4A7A] to-[#0B2B5B] bg-clip-text text-transparent">
               Where Innovation Meets
             </span>
@@ -53,9 +70,9 @@ const BrandsSection = () => {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-
         {/* Gradient Fade Mask */}
-        <div className="pointer-events-none absolute inset-0 z-10
+        <div
+          className="pointer-events-none absolute inset-0 z-10
           [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]
           [-webkit-mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]"
         />
@@ -69,20 +86,12 @@ const BrandsSection = () => {
         {/* Moving Track */}
         <motion.div
           className="flex gap-8 py-10"
-          animate={
-            isPaused
-              ? {}
-              : { x: ["0%", "-50%"] }
-          }
-          transition={{
-            ease: "linear",
-            duration: 25, // speed (lower = faster)
-            repeat: Infinity,
-          }}
+          animate={controls}
+          initial={{ x: "0%" }}
         >
           {loopBrands.map((brand, idx) => (
             <div
-              key={idx}
+              key={`${brand.id}-${idx}`} // composite key to avoid React warning
               className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center group"
             >
               <img
@@ -95,7 +104,6 @@ const BrandsSection = () => {
           ))}
         </motion.div>
       </div>
-
     </section>
   );
 };

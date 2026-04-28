@@ -182,3 +182,11 @@
     border-right-color: var(--border);
   }
 }
+@font-face {
+  font-family: 'Abdo Misr';
+  src: url('/path-to-your-font/AbdoMisr.woff2') format('woff2'),
+       url('/path-to-your-font/AbdoMisr.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

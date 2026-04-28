@@ -100,8 +100,8 @@ const Footer = () => {
 
         {/* Decorative Glows */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-20 -left-20 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl" />
-          <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+          <div className="absolute -top-20 -left-20 w-96 h-96 bg-[#00B8DB]/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-[#00B8DB]/10 rounded-full blur-3xl" />
         </div>
 
         <div className="container mx-auto px-6 md:px-12 lg:px-20 py-16">
@@ -125,7 +125,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white tracking-tight">NEOM</h3>
-                  <p className="text-[10px] font-bold text-sky-400 tracking-widest uppercase">Hospitality Supplies</p>
+                  <p className="text-[10px] font-bold text-[#00B8DB] tracking-widest uppercase">Hospitality Supplies</p>
                 </div>
               </div>
               <p className="text-sm text-slate-400 leading-relaxed mb-6 pr-4">
@@ -137,7 +137,7 @@ const Footer = () => {
             <motion.div variants={fadeUp} className="lg:pl-4">
               <h4 className="text-sm font-bold text-white mb-6 uppercase tracking-widest relative">
                 Navigation
-                <span className="absolute bottom-[-8px] left-0 w-8 h-0.5 bg-sky-500 rounded-full" />
+                <span className="absolute bottom-[-8px] left-0 w-8 h-0.5 bg-[#00B8DB] rounded-full" />
               </h4>
               <ul className="space-y-3.5">
                 {footerLinks.map((link) => (
@@ -147,7 +147,7 @@ const Footer = () => {
                       onClick={(e) => handleNavClick(link, e)}
                       className="group flex items-center text-slate-400 hover:text-white transition-colors duration-300"
                     >
-                      <span className="w-0 group-hover:w-3 h-[1.5px] bg-sky-500 mr-0 group-hover:mr-2 transition-all duration-300" />
+                      <span className="w-0 group-hover:w-3 h-[1.5px] bg-[#00B8DB] mr-0 group-hover:mr-2 transition-all duration-300" />
                       <span className="text-sm font-medium">{link.label}</span>
                     </Link>
                   </li>
@@ -159,7 +159,7 @@ const Footer = () => {
             <motion.div variants={fadeUp}>
               <h4 className="text-sm font-bold text-white mb-6 uppercase tracking-widest relative">
                 Categories
-                <span className="absolute bottom-[-8px] left-0 w-8 h-0.5 bg-cyan-500 rounded-full" />
+                <span className="absolute bottom-[-8px] left-0 w-8 h-0.5 bg-[#00B8DB] rounded-full" />
               </h4>
               
               {/* First 5 Categories - Always visible */}
@@ -171,7 +171,7 @@ const Footer = () => {
                       className="group flex items-center gap-3 text-slate-400 hover:text-white transition-colors duration-300"
                     >
                       {cat.icon && (
-                        <cat.icon className="h-3.5 w-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                        <cat.icon className="h-3.5 w-3.5 text-[#00B8DB] group-hover:text-white transition-colors duration-300" />
                       )}
                       <span className="text-sm font-medium">{cat.label}</span>
                     </Link>
@@ -201,7 +201,7 @@ const Footer = () => {
                           className="group flex items-center gap-3 text-slate-400 hover:text-white transition-colors duration-300"
                         >
                           {cat.icon && (
-                            <cat.icon className="h-3.5 w-3.5 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                            <cat.icon className="h-3.5 w-3.5 text-[#00B8DB] group-hover:text-white transition-colors duration-300" />
                           )}
                           <span className="text-sm font-medium">{cat.label}</span>
                         </Link>
@@ -214,7 +214,7 @@ const Footer = () => {
               {/* Show More / Show Less Button */}
               <button
                 onClick={() => setShowAllCategories(!showAllCategories)}
-                className="group flex items-center gap-2 mt-2 text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors duration-300"
+                className="group flex items-center gap-2 mt-2 text-xs font-medium text-[#00B8DB] hover:text-[#00B8DB]/80 transition-colors duration-300"
               >
                 {showAllCategories ? (
                   <>
@@ -239,7 +239,7 @@ const Footer = () => {
               <ul className="space-y-4">
                 <li>
                   <a href="tel:+971527087748" className="group flex items-center gap-4">
-                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 group-hover:bg-sky-500 group-hover:border-sky-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 text-[#00B8DB] group-hover:bg-[#00B8DB] group-hover:border-[#00B8DB] group-hover:text-white transition-all duration-300 shadow-sm">
                       <Phone className="h-4 w-4" />
                     </span>
                     <div className="flex flex-col">
@@ -250,18 +250,21 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="mailto:neomhospitalitydxb@gmail.com" className="group flex items-center gap-4">
-                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 group-hover:bg-sky-500 group-hover:border-sky-500 group-hover:text-white transition-all duration-300 shadow-sm">
+                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 text-[#00B8DB] group-hover:bg-[#00B8DB] group-hover:border-[#00B8DB] group-hover:text-white transition-all duration-300 shadow-sm">
                       <Mail className="h-4 w-4" />
                     </span>
                     <div className="flex flex-col">
                       <span className="text-xs text-slate-500 font-medium">Email Us</span>
                       <span className="text-sm text-slate-300 group-hover:text-white transition-colors whitespace-nowrap">info@neomhotelssupplies.com</span>
+                       <span className="text-sm text-slate-300 group-hover:text-white transition-colors whitespace-nowrap">neomhospitalitydxb@gmail.com</span>
+
+                    
                     </div>
                   </a>
                 </li>
                 <li>
                   <div className="group flex items-start gap-4">
-                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 text-slate-400 transition-all duration-300 shadow-sm">
+                    <span className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800 border border-slate-700 text-[#00B8DB] transition-all duration-300 shadow-sm">
                       <MapPin className="h-4 w-4" />
                     </span>
                     <div className="flex flex-col">
@@ -296,7 +299,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-500 hover:bg-slate-700 hover:text-white hover:border-slate-600 transition-all duration-300"
+                    className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-[#00B8DB] hover:text-white hover:bg-slate-700 hover:border-slate-600 transition-all duration-300"
                   >
                     <Icon className="h-3.5 w-3.5" />
                   </a>
@@ -306,10 +309,10 @@ const Footer = () => {
 
             <button
               onClick={scrollToTop}
-              className="group flex items-center gap-2 px-4 py-2 rounded-full border border-slate-700 bg-slate-800/50 hover:bg-sky-500 hover:border-sky-500 transition-all duration-300"
+              className="group flex items-center gap-2 px-4 py-2 rounded-full border border-slate-700 bg-slate-800/50 hover:bg-[#00B8DB] hover:border-[#00B8DB] transition-all duration-300"
             >
               <span className="text-xs font-semibold text-slate-400 group-hover:text-white transition-colors">Back to Top</span>
-              <ArrowUp className="h-3.5 w-3.5 text-slate-400 group-hover:text-white group-hover:-translate-y-0.5 transition-all duration-300" />
+              <ArrowUp className="h-3.5 w-3.5 text-[#00B8DB] group-hover:text-white group-hover:-translate-y-0.5 transition-all duration-300" />
             </button>
           </motion.div>
         </div>

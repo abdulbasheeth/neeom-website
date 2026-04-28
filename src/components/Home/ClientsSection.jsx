@@ -41,12 +41,12 @@ const itemVariants = {
   },
 };
 
-// Image Loader - Updated for Full View
+// Image Loader
 const OptimizedImage = ({ src, alt }) => {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center -mt-">
+    <div className="relative w-full h-full flex items-center justify-center">
       {!loaded && (
         <div className="absolute inset-0 bg-gradient-to-r from-slate-100 to-slate-200 animate-pulse rounded-xl" />
       )}
@@ -63,7 +63,7 @@ const OptimizedImage = ({ src, alt }) => {
   );
 };
 
-// Card Component - Increased height, reduced padding
+// Card Component
 const ClientCard = ({ src, index }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -112,33 +112,16 @@ const ClientCard = ({ src, index }) => {
   );
 };
 
-// Main Section
 const ClientsSection = () => {
   return (
-    <section className="relative py-3  bg-gradient-to-b from-white via-slate-50 to-slate-100 overflow-hidden">
+    <section className="relative py-3 bg-gradient-to-b from-white via-slate-50 to-slate-100 overflow-hidden">
+      {/* Animated backgrounds (unchanged) */}
+      <motion.div className="absolute top-0 left-0 w-[600px] h-[600px] bg-violet-400/10 rounded-full blur-3xl" animate={{ x: [0, 70, 0], y: [0, 40, 0] }} transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }} />
+      <motion.div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-400/10 rounded-full blur-3xl" animate={{ x: [0, -70, 0], y: [0, -40, 0] }} transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }} />
+      <motion.div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-amber-400/5 rounded-full blur-3xl" animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }} />
 
-      {/* Animated Background */}
-      <motion.div
-        className="absolute top-0 left-0 w-[600px] h-[600px] bg-violet-400/10 rounded-full blur-3xl"
-        animate={{ x: [0, 70, 0], y: [0, 40, 0] }}
-        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <motion.div
-        className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-400/10 rounded-full blur-3xl"
-        animate={{ x: [0, -70, 0], y: [0, -40, 0] }}
-        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-      />
-      
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-amber-400/5 rounded-full blur-3xl"
-        animate={{ scale: [1, 1.1, 1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      <div className="relative z-10 container mx-auto px-4 md:px-6">
-
-        {/* Header */}
+      <div className="relative z-10 container mx-auto px-4  md:px-6">
+        {/* Header (unchanged) */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 40 }}
@@ -148,59 +131,62 @@ const ClientsSection = () => {
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-5 tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
             <span className="block text-slate-500">Powerful Partnerships</span>
-            <span className="block bg-gradient-to-r from-slate-500 via-blue-600 to-amber-500 bg-clip-text text-transparent pb-5">
-              Driving Innovation Forward
-            </span>
+            <span className="block bg-gradient-to-r from-slate-500 via-blue-600 to-amber-500 bg-clip-text text-transparent pb-5">Driving Innovation Forward</span>
           </h2>
-
-          <p className="text-slate-500 max-w-xl mx-auto text-lg">
-            We collaborate with top companies worldwide to deliver outstanding digital solutions that transform businesses.
-          </p>
+          <p className="text-slate-500 max-w-xl mx-auto text-lg">We collaborate with top companies worldwide to deliver outstanding digital solutions that transform businesses.</p>
         </motion.div>
 
-        {/* Grid */}
+        {/* Clients grid (unchanged) */}
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 max-w-4xl mx-auto"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4 md:gap-5 max-w-5xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {clientImages.map((src, i) => (
-            <ClientCard key={i} src={src} index={i} />
-          ))}
+          {clientImages.map((src, i) => (<ClientCard key={i} src={src} index={i} />))}
         </motion.div>
 
-        {/* Stats - REDUCED SIZE */}
+        {/* ========== STATS SECTION - 2 COLUMNS ON MOBILE, ROW ON DESKTOP ========== */}
         <motion.div
-          className="mt-10 mb-10 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10"
+          className="mt-10 mb-10 grid grid-cols-2 md:flex md:flex-row justify-center items-center gap-6 md:gap-10"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           viewport={{ once: true }}
         >
           {[
-            { number: "100+", label: "Global Clients", icon: "🏢" },
-            { number: "90%", label: "Satisfaction Rate", icon: "⭐" },
-            { number: "24/7", label: "Expert Support", icon: "💬" },
-          ].map((item, i) => (
-            <div key={i} className="text-center group relative">
-              <div className="text-xl mb-1 opacity-70 group-hover:opacity-100 transition-opacity">
+            {
+              number: "Proudly Made in UAE",
+              icon: (
+                <div className="flex justify-center items-center w-7 h-7 mx-auto">
+                  <svg width="28" height="20" viewBox="0 0 900 600" className="block">
+                    <rect width="200" height="600" fill="#FF0000" />
+                    <rect x="200" width="700" height="200" fill="#00732F" />
+                    <rect x="200" y="200" width="700" height="200" fill="#FFFFFF" />
+                    <rect x="200" y="400" width="700" height="200" fill="#000000" />
+                  </svg>
+                </div>
+              ),
+            },
+            { number: "No MOQ", icon: "📦" },
+            { number: "Competitive Pricing", icon: "🏷️" },
+            { number: "24/7", icon: "💬" },
+          ].map((item, i, arr) => (
+            <div key={i} className="text-center group relative flex flex-col items-center">
+              <div className="text-2xl mb-1 opacity-70 group-hover:opacity-100 transition-opacity">
                 {item.icon}
               </div>
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent">
+              <h3 className="text-base sm:text-lg font-bold bg-gradient-to-r from-slate-700 to-slate-800 bg-clip-text text-transparent whitespace-nowrap">
                 {item.number}
               </h3>
-              <p className="text-slate-500 text-xs font-medium tracking-wide">{item.label}</p>
-              {i < 2 && (
-                <div className="hidden md:block absolute top-1/2 -translate-y-1/2 right-0 w-px h-6 bg-slate-200" />
+              {/* Optional divider: only on desktop between items */}
+              {i !== arr.length - 1 && (
+                <div className="hidden md:block absolute top-1/2 -translate-y-1/2 -right-5 w-px h-6 bg-slate-200" />
               )}
             </div>
           ))}
         </motion.div>
-        
-        
-
       </div>
     </section>
   );

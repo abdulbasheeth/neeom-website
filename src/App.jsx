@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
-import Header from "./components/layout/header";
+import Header from "./components/layout/Header";
 import Hero from "./components/Home/heroSection";
 import About from "./components/pages/About";
 import CategoriesSection from './components/Home/categoriesSection';
@@ -10,69 +10,62 @@ import BrandSection from "./components/Home/brandsSection";
 import Contacts from "./components/pages/contact";
 import ClientSection from "./components/Home/ClientsSection";
 import Product from './components/data/product';
-
 import Footer from "./components/layout/Footer";
+import AIChatBox from './components/Ui/AiChatbox';
+import { allProducts, categories } from './components/data/product';
 
 
+import WhatsAppButton from './components/Ui/WhatsAppButton';
 
-// Home Page with all sections
+import CallButton from './components/Ui/CallButton';
+
+
 function HomePage() {
   return (
     <>
 
-      <Hero id="home" />
-      <div id="about">
-        <About />
-      </div>
+      <Hero />
+      <About />
       <CategoriesSection />
       <BrandSection />
-      <div id="contact">
-        <Contacts />
-      </div>
       <ClientSection />
-  
+      <Contacts />
       <Footer />
     </>
   );
 }
 
-// Products Page (separate page)
+// ProductsPage component - shows the Product component
 function ProductsPage() {
-  return (
-    <>
-      <Product />
-      <Footer />
-    </>
-  );
+  return <Product />;
 }
 
 function App() {
-  const location = useLocation();
-
-  useEffect(() => {
-    // Handle hash navigation on initial load and route changes
-    if (location.hash) {
-      const elementId = location.hash.slice(1);
-      const element = document.getElementById(elementId);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
-    } else if (location.pathname === "/") {
-      // If no hash and on home page, scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location]);
+  const phoneNumber = "+971 52 708 7748";
 
   return (
     <div className="App">
-      
       <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<ProductsPage />} />
-      </Routes>
+      <div className="relative z-0">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductsPage />} />
+        </Routes>
+      </div>
+      <AIChatBox products={allProducts} categoriesList={categories} />
+      
+      {/* WhatsApp button - */}
+      <WhatsAppButton 
+        phoneNumber={phoneNumber}
+        message="Hello, I'm interested in your products!"
+        position="bottom-22 right-7"
+      />
+      
+      {/* Call button - */}
+      <CallButton 
+        phoneNumber={phoneNumber}
+        position="bottom-40 right-7"
+      />
     </div>
   );
 }

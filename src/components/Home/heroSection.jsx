@@ -1,11 +1,42 @@
-import React from "react";
+// HeroSection.jsx
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../Ui/button"; 
+import { Button } from "../Ui/button";
+import { ArrowRight } from "lucide-react";
 import herovideo from "../../assets/hero-video.mp4";
 import { motion } from "framer-motion";
 
 const HeroSection = () => {
-  // Animation configuration
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const videoRef = useRef(null);
+
+  // Get fixed header height to prevent overlap
+  useEffect(() => {
+    const header = document.querySelector('nav'); // fixed navbar
+    if (header) setHeaderHeight(header.offsetHeight);
+    const handleResize = () => {
+      if (header) setHeaderHeight(header.offsetHeight);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Force video to load and play immediately (like J&F example)
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch(e => console.log("Autoplay prevented:", e));
+    }
+  }, []);
+
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById("about");
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Animation variants (fade-up)
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: (i = 1) => ({
@@ -16,113 +47,122 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-[calc(100vh-80px)] w-full flex items-center overflow-hidden bg-slate-900">
-      
-      {/* 1. Background Video with Animated Reveal */}
-      <div className="absolute inset-0 z-0">
-        <motion.video
+    <section
+      id="home"
+      className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-slate-900"
+      style={{ paddingTop: `${headerHeight}px` }}
+    >
+      {/* Video – no black background, aggressive preload */}
+      <div className="absolute inset-0 w-full h-full">
+        <video
+          ref={videoRef}
           src={herovideo}
           autoPlay
-          muted
           loop
+          muted
           playsInline
-          className="w-full h-full object-cover object-center"
-          initial={{ scale: 1.05, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.8, ease: "easeOut" }}
+          preload="auto"
+          className="w-full h-full object-cover"
+          style={{ backgroundColor: 'transparent' }}
         />
-        {/* Gradient Overlays for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-slate-900 to-transparent" />
       </div>
 
-      {/* 2. Main Content Container */}
-      <div className="relative z-10 container mx-auto px-6 lg:px-12 py-20">
-        <div className="max-w-3xl">
-          
-          {/* Accent Line & Label */}
-          <motion.div 
-            className="flex items-center gap-4 mb-8"
+      {/* Gradient overlay for text readability (J&F style) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/80" />
+
+      {/* Main content container */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 text-center">
+        <div className="max-w-4xl mx-auto space-y-6">
+          {/* Badge */}
+          <motion.div
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={0}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white/90 text-xs font-bold tracking-widest uppercase"
           >
-            <div className="h-[2px] w-12 bg-blue-400" />
-            <span className="text-blue-300 font-semibold text-sm uppercase tracking-[0.2em]">
-              Trusted Hospitality Partner
-            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+            Trusted Hospitality Partner
           </motion.div>
 
-          {/* Headline */}
+          {/* Headline with gradient text */}
           <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white leading-[1.1] mb-8"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={1}
+            className="text-5xl md:text-7xl font-bold tracking-tight text-white drop-shadow-lg"
           >
-           Premium Supplies for
+            Premium Supplies for
             <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-blue-400 to-blue-600">
-             World Class Hospitality
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-sky-300 to-sky-500">
+              World Class Hospitality
             </span>
           </motion.h1>
 
           {/* Description */}
           <motion.p
-            className="text-blue-100/70 text-base md:text-lg max-w-xl leading-relaxed mb-12 font-light"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={2}
+            className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light"
           >
-           From luxury guest amenities to eco-friendly packaging — everything your hotel, resort, or restaurant needs to deliver an exceptional guest experience.
+            From luxury guest amenities to eco-friendly packaging — everything your hotel, resort, or restaurant needs to deliver an exceptional guest experience.
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
-            className="flex flex-wrap gap-4"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={3}
+            className="flex flex-wrap gap-4 justify-center pt-4"
           >
             <Button
               size="lg"
               asChild
-              className="bg-blue-500 text-white hover:bg-blue-400 font-heading font-bold px-8 py-6 text-sm uppercase tracking-wider shadow-xl shadow-blue-900/30 rounded-full transition-transform hover:scale-105"
+              className="bg-sky-600 text-white hover:bg-sky-500 font-heading font-bold px-8 py-6 text-sm uppercase tracking-wider shadow-xl shadow-sky-900/30 rounded-full transition-transform hover:scale-105"
             >
               <Link to="/#contact">Request a Quote</Link>
             </Button>
-            
             <Button
               size="lg"
               asChild
               variant="ghost"
-              className="text-blue-100 border border-blue-400/30 hover:bg-blue-500/10 font-heading font-medium px-8 py-6 text-sm uppercase tracking-wider rounded-full backdrop-blur-sm"
+              className="text-white border border-white/30 hover:bg-white/10 font-heading font-medium px-8 py-6 text-sm uppercase tracking-wider rounded-full backdrop-blur-sm"
             >
               <Link to="/products">View Products</Link>
             </Button>
           </motion.div>
-
         </div>
       </div>
 
-      
-      {/* 4. Scroll Indicator */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
+      {/* Scroll indicator (J&F style animated arrow) */}
+      <div
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer z-20"
+        onClick={scrollToAbout}
+        aria-label="Scroll to next section"
+        role="button"
       >
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-blue-300/50 text-xs uppercase tracking-widest">Scroll</span>
-          <div className="w-[1px] h-10 bg-gradient-to-b from-blue-300/50 to-transparent animate-pulse" />
+        <div className="animate-move-up-down">
+          <ArrowRight
+            className="w-6 h-6 text-white/80 hover:text-white transition-colors"
+            style={{ transform: 'rotate(90deg)' }}
+          />
         </div>
-      </motion.div>
-      
+      </div>
+
+      <style>{`
+        @keyframes moveUpDown {
+          0% { transform: translateY(0); }
+          50% { transform: translateY(12px); }
+          100% { transform: translateY(0); }
+        }
+        .animate-move-up-down {
+          animation: moveUpDown 1.5s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 };
