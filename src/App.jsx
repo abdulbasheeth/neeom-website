@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
-import Header from "./components/Layout/header";
+import Header from "../src/components/Layout/header";
 import Hero from "./components/Home/heroSection";
 import About from "./components/pages/About";
 import CategoriesSection from './components/Home/categoriesSection';
