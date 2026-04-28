@@ -1,8 +1,7 @@
-import React from 'react';
+import React from "react";
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-
-import Header from "../src/components/Layout/header";
+import Header from "./components/Layout/Header";
 import Hero from "./components/Home/heroSection";
 import About from "./components/pages/About";
 import CategoriesSection from './components/Home/categoriesSection';
@@ -13,17 +12,12 @@ import Product from './components/data/product';
 import Footer from "./components/Layout/Footer";
 import AIChatBox from './components/Ui/AiChatbox';
 import { allProducts, categories } from './components/data/product';
-
-
 import WhatsAppButton from './components/Ui/WhatsAppButton';
-
 import CallButton from './components/Ui/CallButton';
-
 
 function HomePage() {
   return (
     <>
- <Header />
       <Hero />
       <About />
       <CategoriesSection />
@@ -35,7 +29,6 @@ function HomePage() {
   );
 }
 
-// ProductsPage component - shows the Product component
 function ProductsPage() {
   return <Product />;
 }
@@ -53,18 +46,18 @@ function App() {
         </Routes>
       </div>
       <AIChatBox products={allProducts} categoriesList={categories} />
-      
-      {/* WhatsApp button - */}
+
+      {/* WhatsApp button - using valid Tailwind spacing */}
       <WhatsAppButton 
         phoneNumber={phoneNumber}
         message="Hello, I'm interested in your products!"
-        position="bottom-22 right-7"
+        position="bottom-20 right-7"   // changed bottom-22 → bottom-20
       />
-      
-      {/* Call button - */}
+
+      {/* Call button */}
       <CallButton 
         phoneNumber={phoneNumber}
-        position="bottom-40 right-7"
+        position="bottom-36 right-7"   // changed bottom-40 → bottom-36
       />
     </div>
   );
