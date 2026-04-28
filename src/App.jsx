@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
-import Header from "./components/layout/Header";
+import Header from "./components/Layout/Header";
 import Hero from "./components/Home/heroSection";
 import About from "./components/pages/About";
 import CategoriesSection from './components/Home/categoriesSection';
@@ -10,7 +10,7 @@ import BrandSection from "./components/Home/brandsSection";
 import Contacts from "./components/pages/contact";
 import ClientSection from "./components/Home/ClientsSection";
 import Product from './components/data/product';
-import Footer from "./components/layout/Footer";
+import Footer from "./components/Layout/Footer";
 import AIChatBox from './components/Ui/AiChatbox';
 import { allProducts, categories } from './components/data/product';
 
@@ -23,7 +23,7 @@ import CallButton from './components/Ui/CallButton';
 function HomePage() {
   return (
     <>
-
+ <Header />
       <Hero />
       <About />
       <CategoriesSection />
