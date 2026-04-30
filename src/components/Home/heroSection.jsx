@@ -1,5 +1,4 @@
-// HeroSection.jsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../Ui/button";
 import { ArrowRight } from "lucide-react";
@@ -7,21 +6,8 @@ import herovideo from "../../assets/hero-video.mp4";
 import { motion } from "framer-motion";
 
 const HeroSection = () => {
-  const [headerHeight, setHeaderHeight] = useState(0);
   const videoRef = useRef(null);
 
-  // Get fixed header height to prevent overlap
-  useEffect(() => {
-    const header = document.querySelector('nav'); // fixed navbar
-    if (header) setHeaderHeight(header.offsetHeight);
-    const handleResize = () => {
-      if (header) setHeaderHeight(header.offsetHeight);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Force video to load and play immediately (like J&F example)
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.load();
@@ -32,11 +18,12 @@ const HeroSection = () => {
   const scrollToAbout = () => {
     const aboutSection = document.getElementById("about");
     if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: 'smooth' });
+      const headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-total-height')) || 0;
+      const elementPosition = aboutSection.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: elementPosition - headerHeight, behavior: "smooth" });
     }
   };
 
-  // Animation variants (fade-up)
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: (i = 1) => ({
@@ -50,9 +37,8 @@ const HeroSection = () => {
     <section
       id="home"
       className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-slate-900"
-      style={{ paddingTop: `${headerHeight}px` }}
+      style={{ paddingTop: "var(--header-total-height, 0px)" }}
     >
-      {/* Video – no black background, aggressive preload */}
       <div className="absolute inset-0 w-full h-full">
         <video
           ref={videoRef}
@@ -63,35 +49,32 @@ const HeroSection = () => {
           playsInline
           preload="auto"
           className="w-full h-full object-cover"
-          style={{ backgroundColor: 'transparent' }}
         />
       </div>
 
-      {/* Gradient overlay for text readability (J&F style) */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-black/80 md:from-black/40 md:via-black/50 md:to-black/80" />
 
-      {/* Main content container */}
       <div className="relative z-10 container mx-auto px-4 sm:px-6 text-center">
-        <div className="max-w-4xl mx-auto space-y-6">
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-5 md:space-y-6">
           {/* Badge */}
           <motion.div
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={0}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white/90 text-xs font-bold tracking-widest uppercase"
+            className="inline-flex items-center gap-2 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white/90 text-[11px] sm:text-xs font-bold tracking-widest uppercase"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
             Trusted Hospitality Partner
           </motion.div>
 
-          {/* Headline with gradient text */}
+          {/* Heading - Tablet size reduced from 6xl to 5xl for better fit */}
           <motion.h1
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={1}
-            className="text-5xl md:text-7xl font-bold tracking-tight text-white drop-shadow-lg"
+            className="text-4xl sm:text-5xl md:text-5xl lg:text-7xl font-bold tracking-tight text-white drop-shadow-lg px-2"
           >
             Premium Supplies for
             <br />
@@ -106,50 +89,37 @@ const HeroSection = () => {
             initial="hidden"
             animate="visible"
             custom={2}
-            className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-light"
+            className="text-base sm:text-lg md:text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed font-light px-4"
           >
             From luxury guest amenities to eco-friendly packaging — everything your hotel, resort, or restaurant needs to deliver an exceptional guest experience.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - full width on mobile, normal on tablet+ */}
           <motion.div
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={3}
-            className="flex flex-wrap gap-4 justify-center pt-4"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-2 sm:pt-4 px-4"
           >
-            <Button
-              size="lg"
-              asChild
-              className="bg-sky-600 text-white hover:bg-sky-500 font-heading font-bold px-8 py-6 text-sm uppercase tracking-wider shadow-xl shadow-sky-900/30 rounded-full transition-transform hover:scale-105"
-            >
+            <Button size="lg" asChild className="bg-sky-600 hover:bg-sky-500 font-bold px-6 sm:px-8 py-3 sm:py-5 md:py-6 rounded-full w-full sm:w-auto">
               <Link to="/#contact">Request a Quote</Link>
             </Button>
-            <Button
-              size="lg"
-              asChild
-              variant="ghost"
-              className="text-white border border-white/30 hover:bg-white/10 font-heading font-medium px-8 py-6 text-sm uppercase tracking-wider rounded-full backdrop-blur-sm"
-            >
+            <Button size="lg" asChild variant="ghost" className="text-white border border-white/30 hover:bg-white/10 font-medium px-6 sm:px-8 py-3 sm:py-5 md:py-6 rounded-full backdrop-blur-sm w-full sm:w-auto">
               <Link to="/products">View Products</Link>
             </Button>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator (J&F style animated arrow) */}
+      {/* Scroll indicator */}
       <div
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer z-20"
+        className="absolute bottom-6 sm:bottom-4 left-1/2 -translate-x-1/2 cursor-pointer z-20 pb-2 sm:pb-0"
         onClick={scrollToAbout}
         aria-label="Scroll to next section"
-        role="button"
       >
         <div className="animate-move-up-down">
-          <ArrowRight
-            className="w-6 h-6 text-white/80 hover:text-white transition-colors"
-            style={{ transform: 'rotate(90deg)' }}
-          />
+          <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-white/80 hover:text-white" style={{ transform: 'rotate(90deg)' }} />
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MapPin,
   Mail,
@@ -26,6 +26,31 @@ const ContactSection = () => {
   });
   const [errors, setErrors] = useState({});
   const [showToast, setShowToast] = useState(false);
+
+  // --- Animation Logic ---
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect(); // Optional: Run animation only once
+        }
+      },
+      { threshold: 0.15 } // Trigger when 15% of the section is visible
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) observer.unobserve(sectionRef.current);
+    };
+  }, []);
+  // ---------------------
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,9 +115,15 @@ const ContactSection = () => {
   const inputErrorClass = (field) =>
     errors[field] ? 'border-red-500 ring-4 ring-red-100' : 'border-gray-200';
 
+  const transitionBase = "transition-all duration-1000 ease-out transform";
+
   return (
     <>
-      <section id='contact' className="bg-gradient-to-b from-blue-50 to-white py-24 px-6 font-sans text-slate-800">
+      <section 
+        id='contact' 
+        ref={sectionRef}
+        className="bg-gradient-to-b from-blue-50 to-white py-24 px-6 font-sans text-slate-800 overflow-hidden"
+      >
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-16">
@@ -114,225 +145,242 @@ const ContactSection = () => {
 
           {/* Grid */}
           <div className="grid md:grid-cols-2 gap-12 items-start">
-            {/* Left: Info Cards */}
-            <div className="space-y-5">
-              <InfoCard
-                icon={<MapPin size={20} />}
-                title="Our Office"
-                body={
-                  <>
-                    NEOM Hospitality Supplies LLC
-                    <br />
-                    25°15'52.4"N 55°17'30.5"E
-                    <br />
-                    Dubai, UAE
-                  </>
-                }
-              />
-              <InfoCard
-                icon={<Mail size={20} />}
-                title="Email Us"
-                body={
-                  <>
-                    <a href="mailto:info@neomhs.com" className="text-blue-700 hover:text-blue-800">
-                      info@neomhotelssupplies.com
+            
+            {/* Left: Info Cards - Slides in from Left */}
+            <div 
+              className={`${transitionBase} ${
+                isVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 -translate-x-16'
+              }`}
+            >
+              <div className="space-y-5">
+                <InfoCard
+                  icon={<MapPin size={20} />}
+                  title="Our Office"
+                  body={
+                    <>
+                      NEOM Hospitality Supplies LLC
+                      <br />
+                      25°15'52.4"N 55°17'30.5"E
+                      <br />
+                      Dubai, UAE
+                    </>
+                  }
+                />
+                <InfoCard
+                  icon={<Mail size={20} />}
+                  title="Email Us"
+                  body={
+                    <>
+                      <a href="mailto:info@neomhs.com" className="text-blue-700 hover:text-blue-800">
+                        info@neomhotelssupplies.com
+                      </a>
+                      <br />
+                      <a href="mailto:sales@neomhs.com" className="text-blue-700 hover:text-blue-800">
+                        neomhospitalitydxb@gmail.com
+                      </a>
+                    </>
+                  }
+                />
+                <InfoCard
+                  icon={<Phone size={20} />}
+                  title="Call / WhatsApp"
+                  body={
+                    <a href={`tel:${WHATSAPP_DISPLAY}`} className="text-blue-700 hover:text-blue-800">
+                      {WHATSAPP_DISPLAY}
                     </a>
-                    <br />
-                    <a href="mailto:sales@neomhs.com" className="text-blue-700 hover:text-blue-800">
-                      neomhospitalitydxb@gmail.com
-                    </a>
-                  </>
-                }
-              />
-              <InfoCard
-                icon={<Phone size={20} />}
-                title="Call / WhatsApp"
-                body={
-                  <a href={`tel:${WHATSAPP_DISPLAY}`} className="text-blue-700 hover:text-blue-800">
-                    {WHATSAPP_DISPLAY}
-                  </a>
-                }
-              />
-              <InfoCard
-                icon={<Clock size={20} />}
-                title="Working Hours"
-                body={
-                  <>
-                    Mon – Sat: 9:00 AM – 6:00 PM
-                    <br />
-                    Sun: Closed
-                  </>
-                }
-              />
+                  }
+                />
+                <InfoCard
+                  icon={<Clock size={20} />}
+                  title="Working Hours"
+                  body={
+                    <>
+                      Mon – Sat: 9:00 AM – 6:00 PM
+                      <br />
+                      Sun: Closed
+                    </>
+                  }
+                />
 
-              {/* Google Maps Card with corrected coordinates */}
-              <a
-                href="https://www.google.com/maps/place/25%C2%B015'52.4%22N+55%C2%B017'30.5%22E/@25.2645454,55.2892189,17z/data=!3m1!4b1!4m4!3m3!8m2!3d25.2645454!4d55.2917938?hl=en&entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block mt-1 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"
-              >
-                <div className="bg-white rounded-2xl overflow-hidden h-48 relative">
-                  <iframe
-                    title={`NEOM Hospitality Supplies LLC – 25°15'52.4"N 55°17'30.5"E`}
-                    src="https://maps.google.com/maps?q=25.2645454,55.2917938&z=17&output=embed"
-                    className="w-full h-full border-0 saturate-[0.85] contrast-[1.05] pointer-events-none"
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 p-3.5 bg-gradient-to-t from-blue-800/75 via-blue-800/30 to-transparent flex items-center gap-3 text-white text-sm font-medium">
-                    <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
-                      <Navigation size={14} />
-                    </div>
-                    <div>
-                      <div className="text-sm font-semibold">NEOM Hospitality Supplies LLC</div>
-                      <div className="text-xs font-normal text-white/85 flex items-center">
-                        25°15'52.4"N 55°17'30.5"E – Get directions
-                        <ExternalLink size={11} className="ml-1" />
+                {/* Google Maps Card */}
+                <a
+                  href="https://www.google.com/maps/place/25%C2%B015'52.4%22N+55%C2%B017'30.5%22E/@25.2645454,55.2892189,17z/data=!3m1!4b1!4m4!3m3!8m2!3d25.2645454!4d55.2917938?hl=en&entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block mt-1 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg"
+                >
+                  <div className="bg-white rounded-2xl overflow-hidden h-48 relative">
+                    <iframe
+                      title={`NEOM Hospitality Supplies LLC – 25°15'52.4"N 55°17'30.5"E`}
+                      src="https://maps.google.com/maps?q=25.2645454,55.2917938&z=17&output=embed"
+                      className="w-full h-full border-0 saturate-[0.85] contrast-[1.05] pointer-events-none"
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 p-3.5 bg-gradient-to-t from-blue-800/75 via-blue-800/30 to-transparent flex items-center gap-3 text-white text-sm font-medium">
+                      <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
+                        <Navigation size={14} />
+                      </div>
+                      <div>
+                        <div className="text-sm font-semibold">NEOM Hospitality Supplies LLC</div>
+                        <div className="text-xs font-normal text-white/85 flex items-center">
+                          25°15'52.4"N 55°17'30.5"E – Get directions
+                          <ExternalLink size={11} className="ml-1" />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </a>
+                </a>
+              </div>
             </div>
 
-            {/* Right: Contact Form */}
-            <div className="bg-white border border-blue-100 rounded-2xl p-8 md:p-10 shadow-xl">
-              <h3 className="text-2xl font-semibold mb-1">Send Us a Message</h3>
-              <p className="text-sm text-slate-500 mb-8">
-                Fill out the form below — it will open WhatsApp with all your details pre-filled.
-              </p>
+            {/* Right: Contact Form - Slides in from Right */}
+            <div 
+              className={`${transitionBase} delay-200 ${
+                isVisible 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 translate-x-16'
+              }`}
+            >
+              <div className="bg-white border border-blue-100 rounded-2xl p-8 md:p-10 shadow-xl h-full">
+                <h3 className="text-2xl font-semibold mb-1">Send Us a Message</h3>
+                <p className="text-sm text-slate-500 mb-8">
+                  Fill out the form below — it will open WhatsApp with all your details pre-filled.
+                </p>
 
-              <form onSubmit={handleSubmit} noValidate>
-                <div className="grid md:grid-cols-2 gap-4">
+                <form onSubmit={handleSubmit} noValidate>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">
+                        First Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder="John"
+                        className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                          'firstName'
+                        )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">
+                        Last Name <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        placeholder="Doe"
+                        className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                          'lastName'
+                        )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">
+                        Email Address <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="john@company.com"
+                        className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                          'email'
+                        )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-2">Phone Number</label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+971 56 XXX XXXX"
+                        className="w-full px-4 py-3 text-sm bg-blue-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
+                      />
+                    </div>
+                  </div>
+
                   <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">
-                      First Name <span className="text-red-500">*</span>
-                    </label>
+                    <label className="block text-sm font-medium mb-2">Company Name</label>
                     <input
                       type="text"
-                      name="firstName"
-                      value={formData.firstName}
+                      name="company"
+                      value={formData.company}
                       onChange={handleChange}
-                      placeholder="John"
-                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
-                        'firstName'
-                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">
-                      Last Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      placeholder="Doe"
-                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
-                        'lastName'
-                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
-                    />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">
-                      Email Address <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@company.com"
-                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
-                        'email'
-                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all`}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-2">Phone Number</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+971 56 XXX XXXX"
+                      placeholder="Your Hotel / Business Name"
                       className="w-full px-4 py-3 text-sm bg-blue-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
                     />
                   </div>
-                </div>
 
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-2">Company Name</label>
-                  <input
-                    type="text"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    placeholder="Your Hotel / Business Name"
-                    className="w-full px-4 py-3 text-sm bg-blue-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
-                  />
-                </div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-2">
+                      Subject <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                        'subject'
+                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 appearance-none bg-no-repeat bg-right-4`}
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%235a7091' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")`,
+                      }}
+                    >
+                      <option value="" disabled>Select a topic</option>
+                      <option value="general">General Inquiry</option>
+                      <option value="products">Product Information</option>
+                      <option value="quotation">Request a Quotation</option>
+                      <option value="bulk">Bulk Order</option>
+                      <option value="partnership">Partnership Opportunity</option>
+                      <option value="support">After-Sales Support</option>
+                    </select>
+                  </div>
 
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-2">
-                    Subject <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
-                      'subject'
-                    )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 appearance-none bg-no-repeat bg-right-4`}
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%235a7091' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E")`,
-                    }}
+                  <div className="mb-6">
+                    <label className="block text-sm font-medium mb-2">
+                      Message <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Tell us how we can help you..."
+                      rows={4}
+                      className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
+                        'message'
+                      )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all resize-vertical`}
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3.5 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:scale-[1.02] active:scale-100"
                   >
-                    <option value="" disabled>Select a topic</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="products">Product Information</option>
-                    <option value="quotation">Request a Quotation</option>
-                    <option value="bulk">Bulk Order</option>
-                    <option value="partnership">Partnership Opportunity</option>
-                    <option value="support">After-Sales Support</option>
-                  </select>
-                </div>
+                    <MessageCircle size={18} />
+                    Send via WhatsApp
+                    <ArrowRight size={18} />
+                  </button>
 
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-2">
-                    Message <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder="Tell us how we can help you..."
-                    rows={4}
-                    className={`w-full px-4 py-3 text-sm bg-blue-50 border ${inputErrorClass(
-                      'message'
-                    )} rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all resize-vertical`}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 bg-gradient-to-r from-green-500 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:scale-[1.02] active:scale-100"
-                >
-                  <MessageCircle size={18} />
-                  Send via WhatsApp
-                  <ArrowRight size={18} />
-                </button>
-
-                <p className="text-center text-xs text-slate-400 mt-4">
-                  By submitting, you agree to our privacy policy. We'll never share your information.
-                </p>
-              </form>
+                  <p className="text-center text-xs text-slate-400 mt-4">
+                    By submitting, you agree to our privacy policy. We'll never share your information.
+                  </p>
+                </form>
+              </div>
             </div>
           </div>
         </div>
@@ -362,7 +410,7 @@ const InfoCard = ({ icon, title, body }) => {
   return (
     <div
       className={`bg-white rounded-2xl p-7 flex gap-5 items-start transition-all duration-300 cursor-default ${
-        hovered ? 'border border-blue-200 shadow-xl -translate-y-0.5' : 'shadow-sm'
+        hovered ? 'border border-blue-200 shadow-xl -translate-y-0.5' : 'shadow-sm border border-transparent'
       }`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
