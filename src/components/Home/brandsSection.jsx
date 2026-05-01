@@ -47,7 +47,7 @@ const BrandsSection = () => {
   }, [isPaused, controls]);
 
   return (
-    <section className="relative py-2 md:py-5 overflow-hidden bg-white dark:bg-[#0a0a0a]">
+    <section className="relative py-2 md:py-5 overflow-hidden bg-white">
       {/* Header */}
       <div className="text-center px-6">
         <ScrollReveal>
@@ -69,17 +69,17 @@ const BrandsSection = () => {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Gradient Fade Mask – now using background-color aware masks */}
+        {/* Gradient Fade Mask – pure white edges */}
         <div
           className="pointer-events-none absolute inset-0 z-10
           [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]
           [-webkit-mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]"
         />
 
-        {/* Optional curved edge effect – if you still want a soft fade at ends */}
+        {/* Curved edge effect – pure white gradients */}
         <div className="absolute inset-0 pointer-events-none z-10">
-          <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-white dark:from-[#0a0a0a] to-transparent rounded-l-[50%]" />
-          <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white dark:from-[#0a0a0a] to-transparent rounded-r-[50%]" />
+          <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-white to-transparent rounded-l-[50%]" />
+          <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white to-transparent rounded-r-[50%]" />
         </div>
 
         {/* Moving Track */}
