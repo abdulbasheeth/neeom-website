@@ -91,8 +91,9 @@ const BrandsSection = () => {
         >
           {loopBrands.map((brand, idx) => (
             <div
-              key={`${brand.id}-${idx}`} // composite key to avoid React warning
-              className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center group"
+              key={`${brand.id}-${idx}`}
+              // CHANGES ARE HERE: Added bg-white, dark:bg-gray-800, shadow, rounded-full, and padding (p-2)
+              className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center group bg-white dark:bg-gray-800 rounded-full shadow-md p-3 transition-colors duration-300"
             >
               <img
                 src={brand.src}
