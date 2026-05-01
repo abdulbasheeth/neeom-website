@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { ScrollReveal } from "../Ui/scroll-reveal";
 
-// Images
+// Your imports remain the same
 import brand4 from "../../assets/brands/brands4.jpg";
 import brand6 from "../../assets/brands/brands6.jpg";
 import brand7 from "../../assets/brands/brands7.jpg";
@@ -23,7 +23,6 @@ const brands = [
   { id: 8, src: brand13, name: "Brand 13" },
 ];
 
-// duplicate for seamless loop
 const loopBrands = [...brands, ...brands];
 
 const BrandsSection = () => {
@@ -48,7 +47,7 @@ const BrandsSection = () => {
   }, [isPaused, controls]);
 
   return (
-    <section className="relative py-2 md:py-5 overflow-hidden bg-gradient-to-b from-white via-gray-50/30 to-white dark:from-[#0a0a0a] dark:via-gray-900/50 dark:to-[#0a0a0a]">
+    <section className="relative py-2 md:py-5 overflow-hidden bg-white dark:bg-[#0a0a0a]">
       {/* Header */}
       <div className="text-center px-6">
         <ScrollReveal>
@@ -70,14 +69,14 @@ const BrandsSection = () => {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* Gradient Fade Mask */}
+        {/* Gradient Fade Mask – now using background-color aware masks */}
         <div
           className="pointer-events-none absolute inset-0 z-10
           [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]
           [-webkit-mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]"
         />
 
-        {/* Curved Edge Effect */}
+        {/* Optional curved edge effect – if you still want a soft fade at ends */}
         <div className="absolute inset-0 pointer-events-none z-10">
           <div className="absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-white dark:from-[#0a0a0a] to-transparent rounded-l-[50%]" />
           <div className="absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white dark:from-[#0a0a0a] to-transparent rounded-r-[50%]" />
@@ -92,8 +91,7 @@ const BrandsSection = () => {
           {loopBrands.map((brand, idx) => (
             <div
               key={`${brand.id}-${idx}`}
-              // CHANGES ARE HERE: Added bg-white, dark:bg-gray-800, shadow, rounded-full, and padding (p-2)
-              className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center group bg-white dark:bg-gray-800 rounded-full shadow-md p-3 transition-colors duration-300"
+              className="flex-shrink-0 w-28 h-28 md:w-36 md:h-36 flex items-center justify-center group"
             >
               <img
                 src={brand.src}
