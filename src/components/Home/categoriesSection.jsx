@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShirt } from '@fortawesome/free-solid-svg-icons';
 
 // --- MOCK DATA ---
 const categories = [
-  { id: "guest-amenities", label: "Guest Amenities", icon: "🧴" },
-  { id: "housekeeping", label: "Housekeeping", icon: "🧹" },
-  { id: "reception", label: "Reception", icon: "🛎️" },
-  { id: "food-service", label: "Food Service", icon: "🍽️" },
-  { id: "furniture", label: "Furniture", icon: "🛋️" },
-  { id: "textiles", label: "Textiles", icon: "🛏️" },
-  { id: "electronics", label: "Electronics", icon: "📺" },
-  { id: "decor", label: "Decor", icon: "🖼️" },
-  { id: "safety", label: "Safety", icon: "🚒" },
-  { id: "spa-wellness", label: "Spa & Wellness", icon: "🧘" },
+  { id: "amenities", label: "Guest Amenities & Equipments", icon: "🧴" },
+  { id: "linens", label: "Bed & Bath Linens", icon: "🛏️" },
+  { id: "chemicals", label: "Laundry Chemicals & Accessories", icon: "🫙" },
+  { id: "eco-bags", label: "Eco-Friendly Sustainable Bags", icon: "♻️" },
+  { id: "non-woven", label: "Non Woven Bags & Covers", icon: "🛍️" },
+  { id: "ppe", label: "Non woven Disposable Essentials PPE", icon: <FontAwesomeIcon icon={faShirt} color="#87CEEB" /> },
+  { id: "promotions", label: "Promotional Give Always", icon: "🎁" },
+  { id: "cleaning", label: "Cleaning Equipments & Accessories", icon: "🧹" },
+  { id: "bins", label: "Bins & Trolleys", icon: "🛒" },
+  { id: "fuel", label: "Chafing Fuel & Charcoals", icon: "🔥" },
 ];
 
 // --- MOCK UI COMPONENTS ---

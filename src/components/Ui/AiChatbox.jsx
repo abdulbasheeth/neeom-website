@@ -24,12 +24,7 @@ const sanitizeText = (text) => {
 // Lead capture conversation flow
 // --------------------------------------------------------------
 const QUESTIONS = [
-  {
-    id: 'serviceCategory',
-    text: "🧹 Which service category do you need?",
-    type: 'choice',
-    options: ['Cleaning Services', 'Technical Services', 'Homecare Services']
-  },
+
   {
     id: 'orderType',
     text: "🏢 Are you ordering as an individual or for a business?",
@@ -287,7 +282,7 @@ const AIChatBox = ({ products = [], categoriesList = [] }) => {
     return (
       <button
         onClick={toggleChat}
-        className="fixed bottom-4 right-6 z-[9999] bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 group"
+        className="fixed bottom-18 right-6 z-[9999] bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 group"
         aria-label="Open Quote Assistant"
       >
         <Bot className="w-6 h-6 group-hover:scale-105 transition-transform" />

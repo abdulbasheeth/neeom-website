@@ -21,6 +21,8 @@ import AIChatBox from './components/Ui/AiChatbox';
 import { allProducts, categories } from './components/data/product';
 import WhatsAppButton from './components/Ui/WhatsAppButton';
 import CallButton from './components/Ui/CallButton';
+import Music from './components/Ui/MusicPlayer.jsx'
+import playmusic from './assets/pufino.mp3'
 
 function HomePage() {
   return (
@@ -31,6 +33,8 @@ function HomePage() {
       <BrandSection />
       <ClientSection />
       <Contacts />
+      
+
       <Footer />
     </>
   );
@@ -53,18 +57,20 @@ function App() {
         </Routes>
       </div>
       <AIChatBox products={allProducts} categoriesList={categories} />
-
+   <div className="fixed bottom-3 right-5.5 z-50">
+  <Music audioUrl={playmusic} size="w-12 h-12" />
+</div>
       {/* WhatsApp button - using valid Tailwind spacing */}
       <WhatsAppButton 
         phoneNumber={phoneNumber}
         message="Hello, I'm interested in your products!"
-        position="bottom-20 right-7"   // changed bottom-22 → bottom-20
+        position="bottom-33 right-7"   // changed bottom-22 → bottom-20
       />
 
       {/* Call button */}
       <CallButton 
         phoneNumber={phoneNumber}
-        position="bottom-36 right-7"   // changed bottom-40 → bottom-36
+        position="bottom-47 right-7"   // changed bottom-40 → bottom-36
       />
     </div>
   );

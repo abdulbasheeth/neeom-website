@@ -14,7 +14,7 @@ const WhatsAppButton = ({ phoneNumber, message, position = 'bottom-6 right-6' })
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className={`fixed ${position} bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2`}
+      className={`fixed ${position} bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-lg transition-all duration-300 z-50 flex items-center justify-center group focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2`}
       aria-label="Chat on WhatsApp"
       style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}
     >
